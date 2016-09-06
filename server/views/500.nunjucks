@@ -1,0 +1,5 @@
+{% extends "base.nunjucks" %}
+
+{% block root %}
+    <div id="root">Five hunnid yo!</div>
+{% endblock %}
