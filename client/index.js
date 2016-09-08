@@ -15,5 +15,5 @@ render(
     <Provider store={store}>
         <Router history={browserHistory} routes={router} />
     </Provider>,
-    document.getElementById('js-shit')
+    document.getElementById('js-beerdibs-app')
 );

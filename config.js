@@ -6,10 +6,12 @@ const port = Number(process.env.NODE_PORT) || 3001;
 export default {
     // app.get('env') returns process.env.NODE_ENV or 'development'
     port,
+    socketPort: 4080,
     serviceHost: process.env.NODE_SERVICE_HOST || devboxHost,
     cookieDomain: '.beerdibs.com',
     devbox: true,
-    db: path.resolve(__dirname, './server/db/test.db')
+    db: path.resolve(__dirname, './server/db/test.db'),
+    arduinoHost: '192.168.32.155'
     // wwwDomainName: process.env.NODE_WWW_DOMAIN || devboxHost,
     // dotComHost: process.env.NODE_BUYER_HOST || devboxHost,
     // cdnDomain: process.env.NODE_CDN_DOMAIN || devboxHost,

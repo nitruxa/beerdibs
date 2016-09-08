@@ -1,8 +1,5 @@
 import path from 'path';
 import autoprefixer from 'autoprefixer';
-import precss from 'precss';
-import stripInlineComments from 'postcss-strip-inline-comments';
-import scss from 'postcss-scss';
 
 const PUBLIC_PATH = '/public';
 

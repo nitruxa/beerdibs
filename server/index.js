@@ -1,6 +1,6 @@
-import app from './app.js';
+import {app, socketServer} from './app.js';
 
-const port = app.locals.port;
+const {port, socketPort} = app.locals;
 const pkg = require('../package');
 
 const server = app.listen(port, function () {
@@ -14,6 +14,12 @@ const server = app.listen(port, function () {
     };
 
     logger.info('started', JSON.stringify(report, null, 2));
+
+    socketServer.on('request', app);
+    socketServer.listen(socketPort, () => {
+        logger.info('socket server started');
+    });
 });
+
 
 export default server;

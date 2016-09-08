@@ -4,12 +4,18 @@ import IconHome from 'dibs-vg/dist/react/home';
 import IconBeer from 'dibs-vg/dist/react/baby-bottle';
 import IconUser from 'dibs-vg/dist/react/account-outlined';
 
+import connectSocket from '../../helpers/connectSocket';
+
 import css from '../../assets/css/base.css';
 
 class App extends Component {
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        connectSocket();
     }
 
     render() {

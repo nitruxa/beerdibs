@@ -1,3 +1,4 @@
+import http from 'http';
 import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -7,16 +8,22 @@ import webpackMiddleware from 'webpack-dev-middleware';
 import webpack from 'webpack';
 import nunjucks from 'nunjucks';
 
-import additionalHeaders from './helpers/additionalHeaders';
 import configure from './config/configure';
 import router from './routes';
-import cacheSettings from './helpers/cacheSettings';
 import webpackConfig from '../webpack.config';
 import {notFound, errorHandler} from './middleware/error';
 import renderComponent from './middleware/renderComponent';
 
-const app = configure(express(), {
-    versionFile: path.resolve(__dirname, '../public/version.json')
+import additionalHeaders from './helpers/additionalHeaders';
+import cacheSettings from './helpers/cacheSettings';
+
+const expressApp = express();
+
+export const socketServer = http.createServer();
+
+export const app = configure(expressApp, {
+    versionFile: path.resolve(__dirname, '../public/version.json'),
+    socketServer
 });
 
 const cacheOptions = {
@@ -57,7 +64,7 @@ nunjucks.configure(app.get('views'), {
     express: app
 });
 
-app.use(express.static('public', {
+app.use(express.static(__dirname + '../public', {
     etag: false
 }));
 
@@ -79,6 +86,10 @@ app.use(cache.middleware(cacheOptions));
 
 app.use(router);
 
+app.use('*', (req, res) => {
+    res.status(200).render('base');
+});
+
 // The 404 handler is the last route (nothing has handled it).
 // app.use(notFound, renderComponent, (req, res) => {
 //     const html = res.locals.html;
@@ -89,15 +100,8 @@ app.use(router);
 //     });
 // });
 
-app.get('*', (req, res) => {
-    res.status(404).render('base');
+app.use(app.locals.logger.errorLog, errorHandler, (req, res) => {
+    res.status(500).render('500', {
+        title: 'Whoops'
+    });
 });
-
-// Uncaught errors are handled below -- don't put any routes, controllers, etc below here!
-// app.use(app.locals.logger.errorLog, errorHandler, (req, res) => {
-//     res.status(500).render('500', {
-//         title: 'Whoops'
-//     });
-// });
-
-export default app;
