@@ -1,0 +1,52 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300);
+@import "../../../node_modules/dibs-styles/lib/globals/_grid.scss";
+@import "../../../node_modules/dibs-scss-vars/colors.scss";
+
+@import "./vars";
+@import "./mixins";
+@import "./buttons";
+@import "./menu";
+@import "./users";
+
+body {
+    background: $color-light-secondary;
+    font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, sans-serif;
+    margin: 0;
+}
+
+.right-col {
+    height: 100vh;
+}
+
+.section {
+    background: url('data:image/png;base64,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');
+    background-size: 106px 64px;
+    background-repeat: no-repeat;
+    background-position: 95% 10px;
+}
+
+.section-dark {
+    background: $color-dark-secondary;
+    height: 100vh;
+}
+
+.logo {
+    height: 40px;
+}
+
+.header {
+    padding: 15px;
+    margin-bottom: $gutter;
+    font-size: 18px;
+    color: $color-dark-secondary;
+    letter-spacing: 1px;
+
+    .section-dark & {
+        color: $color-light-secondary;
+    }
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+}

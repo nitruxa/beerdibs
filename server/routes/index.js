@@ -5,8 +5,8 @@ import beer from './beer';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
-router.use(user);
-router.use(fingerprint);
-router.use(beer);
+router.use('/api', user);
+router.use('/api', fingerprint);
+router.use('/api', beer);
 
 export default router;

@@ -1,13 +1,17 @@
 import path from 'path';
+import autoprefixer from 'autoprefixer';
+import precss from 'precss';
+import stripInlineComments from 'postcss-strip-inline-comments';
+import scss from 'postcss-scss';
 
-const PUBLIC_PATH = '/mobile/public';
+const PUBLIC_PATH = '/public';
 
 export default {
     context: __dirname,
     devtool: '#cheap-module-eval-source-map',
-    entry: './client/components/entry.js',
+    entry: './client/index.js',
     output: {
-        filename: `entry.js`,
+        filename: `app.js`,
         path: path.join(__dirname, './public'),
         publicPath: PUBLIC_PATH
     },
@@ -35,6 +39,10 @@ export default {
                         'babel-plugin-transform-object-rest-spread'
                     ].map(require.resolve)
                 }
+            },
+            {
+                test:   /\.css$/,
+                loader: 'style-loader!css-loader!sass-loader!postcss-loader'
             }
         ]
     },
@@ -44,5 +52,6 @@ export default {
         stats: {
             colors: true
         }
-    }
+    },
+    postcss: () => [autoprefixer]
 };

@@ -80,20 +80,24 @@ app.use(cache.middleware(cacheOptions));
 app.use(router);
 
 // The 404 handler is the last route (nothing has handled it).
-app.use(notFound, renderComponent, (req, res) => {
-    const html = res.locals.html;
+// app.use(notFound, renderComponent, (req, res) => {
+//     const html = res.locals.html;
 
-    res.status(404).render('base', {
-        title: '404 Page not found',
-        content: html
-    });
+//     res.status(404).render('base', {
+//         title: '404 Page not found',
+//         content: html
+//     });
+// });
+
+app.get('*', (req, res) => {
+    res.status(404).render('base');
 });
 
 // Uncaught errors are handled below -- don't put any routes, controllers, etc below here!
-app.use(app.locals.logger.errorLog, errorHandler, (req, res) => {
-    res.status(500).render('500', {
-        title: 'Whoops'
-    });
-});
+// app.use(app.locals.logger.errorLog, errorHandler, (req, res) => {
+//     res.status(500).render('500', {
+//         title: 'Whoops'
+//     });
+// });
 
 export default app;

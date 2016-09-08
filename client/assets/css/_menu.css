@@ -1,0 +1,28 @@
+.menu {
+    padding: $gutter 0;
+    margin-right: -#{$gutter-half};
+    margin-left: -#{$gutter-half};
+}
+
+.menu-item {
+    display: block;
+    padding: $gutter-half $gutter;
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: $satans-grey;
+    text-decoration: none;
+
+    .dibsvg-svg {
+        width: 16px;
+        height: 16px;
+        margin-right: $gutter-half;
+        fill: currentColor;
+        vertical-align: middle;
+    }
+
+    &.is-active,
+    &:hover {
+        background: $color-light-secondary-darker;
+    }
+}

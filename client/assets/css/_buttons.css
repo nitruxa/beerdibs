@@ -1,0 +1,65 @@
+$button-border-width: 1px;
+$button-height: 40px;
+$button-line-height: $button-height - $button-border-width;
+
+$button-types: ('primary','secondary');
+
+@mixin button($background-color, $border-color, $color) {
+    background-color: $background-color;
+    border: $button-border-width solid $border-color;
+    color: $color;
+}
+
+@mixin button-hover($background-color, $border-color, $color) {
+    &:hover {
+        background-color: $background-color;
+        border: $button-border-width solid $border-color;
+        color: $color;
+    }
+}
+
+%button {
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    min-width: 180px;
+    height: $button-height;
+    padding: 0 20px;
+    border: 0;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: $button-line-height;
+    font-weight: 300;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    border-radius: 9999px;
+    transition: all 175ms linear;
+
+    &.button--primary {
+        @include button($color-light-tertiary-darker, $color-light-tertiary-darker, $color-light-primary);
+        @include button-hover($color-dark-tertiary, $color-dark-tertiary, $color-light-primary);
+    }
+
+    &.button--secondary {
+        @include button($color-light-primary, $color-light-tertiary-darker, $color-light-tertiary-darker);
+        @include button-hover($color-light-primary, $color-dark-tertiary, $color-dark-tertiary);
+    }
+
+    &.disabled,
+    &:disabled {
+        /*@include button($disabled-color, $disabled-color, $color-light-primary);
+        @include button-hover($disabled-color, $disabled-color, $color-light-primary);*/
+        cursor: initial;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+}
+
+@each $type in $button-types {
+    .button--#{$type} {
+        @extend %button;
+    }
+}
