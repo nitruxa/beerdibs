@@ -23,18 +23,48 @@ const configureDb = function () {
         `);
 
         db.run(`
-            CREATE TABLE IF NOT EXISTS "user_fingerprints" (
+            CREATE TABLE IF NOT EXISTS "userFingerprints" (
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "userId" INTEGER
             )
         `);
 
         db.run(`
-            CREATE TABLE IF NOT EXISTS "beers" (
+            CREATE TABLE IF NOT EXISTS "userBeers" (
+                "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                "userId" integer(128),
+                "beerKegId" integer(128),
+                "volume" integer(128),
+                "date" varchar(64)
+            );
+        `);
+
+        db.run(`
+            CREATE TABLE IF NOT EXISTS "beerBrands" (
                 "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
                 "name" varchar(128),
                 "labelUrl" varchar(256),
                 "vol" float(128) DEFAULT(0)
+            );
+        `);
+
+        db.run(`
+            CREATE TABLE IF NOT EXISTS "beerKegs" (
+                "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                "beerBrandId" integer NOT NULL,
+                "volume" integer,
+                "price" float,
+                "purchaseDate" varchar(64),
+                "active" integer(1)
+            );
+        `);
+
+        db.run(`
+            CREATE TABLE IF NOT EXISTS "beerTaps" (
+                "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+                "beerKegId" integer NOT NULL,
+                "position" integer(128),
+                "active" integer(128)
             );
         `);
     });

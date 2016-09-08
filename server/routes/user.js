@@ -1,4 +1,5 @@
 import express from 'express';
+import userFingerprints from './userFingerprints';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -87,5 +88,7 @@ router.put('/user/:userId', (req, res) => {
         });
     });
 });
+
+router.use('/user', userFingerprints);
 
 export default router;

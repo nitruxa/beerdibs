@@ -3,8 +3,7 @@ import getLogger from 'dibs-node-log';
 import EventEmitter from 'events';
 import config from '../../config';
 import configureDb from './configureDb';
-import arduinoConnect from '../helpers/arduinoConnect';
-import arduinoListener from '../helpers/arduinoListener';
+import arduinoConnect from '../utils/arduinoConnect';
 
 export default (app, settings) => {
     const eventEmitter = new EventEmitter();
@@ -24,8 +23,6 @@ export default (app, settings) => {
 
     const arduino = arduinoConnect(app);
     Object.defineProperty(app.locals, 'arduino', { value: arduino });
-
-    arduinoListener(app);
 
     return app;
 };

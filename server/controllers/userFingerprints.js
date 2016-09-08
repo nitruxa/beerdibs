@@ -4,7 +4,7 @@ export const getFingerPrint = function (app, payload) {
 
     const GET_FINGERPRINT_USER_SQL = `
         SELECT users.*, f.*
-        FROM user_fingerprints f
+        FROM userFingerprints f
         LEFT JOIN users ON users.id = f.userId
         WHERE f.id=${id}
     `;
@@ -33,7 +33,7 @@ export const addFingerprint = function (app, payload) {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             db.run(`
-                INSERT INTO user_fingerprints (userId)
+                INSERT INTO userFingerprints (userId)
                 VALUES (${userId})
             `, error => {
                 if (error) {
@@ -53,7 +53,7 @@ export const deleteFingerprint = function (app, payload) {
     return new Promise((resolve, reject) => {
         db.serialize(() => {
             db.run(`
-                DELETE FROM user_fingerprints WHERE id=${id}
+                DELETE FROM userFingerprints WHERE id=${id}
             `, error => {
                 if (error) {
                     reject(error);

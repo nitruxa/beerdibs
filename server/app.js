@@ -16,6 +16,8 @@ import renderComponent from './middleware/renderComponent';
 
 import additionalHeaders from './helpers/additionalHeaders';
 import cacheSettings from './helpers/cacheSettings';
+import arduinoListener from './utils/arduinoListener';
+import socketEvents from './utils/socketEvents';
 
 const expressApp = express();
 
@@ -89,6 +91,12 @@ app.use(router);
 app.use('*', (req, res) => {
     res.status(200).render('base');
 });
+
+// add arduino event listeners
+arduinoListener(app);
+
+// add socket event listeners + emitters
+socketEvents(app);
 
 // The 404 handler is the last route (nothing has handled it).
 // app.use(notFound, renderComponent, (req, res) => {

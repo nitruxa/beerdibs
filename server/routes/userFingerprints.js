@@ -1,5 +1,5 @@
 import express from 'express';
-import {getFingerPrint, addFingerprint, deleteFingerprint} from '../controllers/fingerprint';
+import {getFingerPrint, addFingerprint, deleteFingerprint} from '../controllers/userFingerprints';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
