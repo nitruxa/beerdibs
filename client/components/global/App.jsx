@@ -14,24 +14,49 @@ class App extends Component {
         super(props);
     }
 
+
     componentDidMount() {
-        connectSocket();
+        connectSocket(this.onSocket);
+    }
+
+    onSocket(payload) {
+        switch (payload.event) {
+            case 'finger:found':
+
+                break;
+            case 'beer:pour':
+
+                break;
+
+            case 'solenoid:close':
+
+                break;
+        }
     }
 
     render() {
         return (
+            // <div className="overlay">
+            //     <div className="tap-notification">
+            //         <div className="tap-beer"></div>
+            //         <div class="tap-user">
+            //             Irma pouring Angurio Koja
+            //             <span className="tap-puored">0.4 l</span>
+            //         </div>
+            //     </div>
+            // </div>
             <div className="containerFluid boxSizingWrapper">
                 <div className="rowFlex">
-                    <div className="colLg2 right-col">
+                    <div className="colLg2 colXs2 right-col">
                         <div className="logo"></div>
                         <div className="menu">
-                            <a className="menu-item is-active" href="#" title=""><IconHome />Dashboard
+                            <a className="menu-item" href="/" title=""><IconHome />Dashboard
                             </a>
-                            <a className="menu-item" href="#" title=""><IconBeer />Beers</a>
-                            <a className="menu-item" href="#" title=""><IconUser />Users</a>
+                            <a className="menu-item" href="/beers" title=""><IconBeer />Beers</a>
+                            <a className="menu-item" href="/users" title=""><IconUser />Users</a>
                         </div>
                     </div>
-                    <div className="colLg10">
+                    <div className="colLg10 colXs10">
                         {this.props.children}
                     </div>
                 </div>

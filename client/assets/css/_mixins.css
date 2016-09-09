@@ -9,3 +9,7 @@
         clear: both;
     }
 }
+
+@mixin svg-icon($icon, $width: 20, $height: 20, $color: $color-dark-primary) {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="#{$width}" height="#{$height}" fill="%23#{str-slice(quote($color), 2)}" viewBox="0 0 #{$width} #{$height}">#{$icon}</svg>');
+}

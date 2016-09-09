@@ -1,6 +1,6 @@
 let reconnectInterval;
 
-const connectSocket = () => {
+const connectSocket = callback => {
     const ws = new WebSocket('ws://127.0.0.1:4080');
 
     ws.onopen = () => {
@@ -11,6 +11,7 @@ const connectSocket = () => {
     ws.onmessage = event => {
         const data = JSON.parse(event.data);
         console.log('{SOCKET}', data);
+        callback(data.event);
     };
 
     ws.onclose = event => {

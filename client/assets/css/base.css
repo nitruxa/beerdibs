@@ -5,17 +5,30 @@
 @import "./vars";
 @import "./mixins";
 @import "./buttons";
+@import "./fields";
+
 @import "./menu";
 @import "./users";
+@import "./beers";
+
+
+html {
+    font-size: 62.5%;
+    width: 100%;
+}
 
 body {
     background: $color-light-secondary;
     font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, sans-serif;
+    color: $color-dark-primary;
     margin: 0;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 .right-col {
-    height: 100vh;
+    min-height: 100vh;
+    background: $color-light-primary;
 }
 
 .section {
@@ -26,8 +39,9 @@ body {
 }
 
 .section-dark {
+    min-height: 100vh;
+    color: $color-light-secondary;
     background: $color-dark-secondary;
-    height: 100vh;
 }
 
 .logo {
@@ -41,12 +55,31 @@ body {
     color: $color-dark-secondary;
     letter-spacing: 1px;
 
+    .section & {
+        margin-bottom: $gutter * 2.5;
+    }
+
     .section-dark & {
         color: $color-light-secondary;
     }
 }
 
+.content {
+    padding: 0 10px;
+}
+
 .actions {
     display: flex;
     justify-content: space-between;
+}
+
+
+// notification
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($color-light-primary, 0.7);
 }
