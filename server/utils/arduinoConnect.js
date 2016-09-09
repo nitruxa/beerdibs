@@ -10,14 +10,19 @@ const arduinoConnect = function (app) {
     arduino
         .on('data', buff => {
             buffer += buff.toString();
+            console.log('<< --- Received buffer +| ', buff.toString());
 
             const matchedData = buffer.match(/##({.*})##/g);
 
             if (matchedData && matchedData.length) {
                 matchedData.map(m => m.match(/##({.*})##/)[1]).forEach(mData => {
-                    const {event, data} = JSON.parse(mData);
-                    console.log('{eventEmitter}', event, data);
-                    eventEmitter.emit(event, data);
+                    try {
+                        const {event, data} = JSON.parse(mData);
+                        console.log('{{ --- Event found +| ', event, data);
+                        eventEmitter.emit(event, data);
+                    } catch (error) {
+                        console.log('!! --- Broken buffer +| ', mData);
+                    }
                 });
                 buffer = '';
             }

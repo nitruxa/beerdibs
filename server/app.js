@@ -16,7 +16,7 @@ import renderComponent from './middleware/renderComponent';
 
 import additionalHeaders from './helpers/additionalHeaders';
 import cacheSettings from './helpers/cacheSettings';
-import arduinoListener from './utils/arduinoListener';
+import {arduinoListener} from './utils/arduinoListener';
 import socketEvents from './utils/socketEvents';
 
 const expressApp = express();

@@ -1,4 +1,4 @@
-import dbWHere from '../helpers/dbWHere';
+import {sqlEach} from '../helpers/sql';
 import {getBeerBrands} from './beerBrands';
 
 const GET_BEER_KEGS_SQL = `
@@ -8,22 +8,7 @@ const GET_BEER_KEGS_SQL = `
 export const getBeerKegs = function (app, payload = {}) {
     const {db} = app.locals;
 
-    return new Promise((resolve, reject) => {
-        const data = [];
-
-        db.serialize(() => {
-            db.each(GET_BEER_KEGS_SQL + dbWHere(payload.filter), (err, row) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    data.push(row);
-                }
-            }, () => {
-                resolve(data);
-            });
-        });
-    })
-    .then(beerKegs => {
+    return sqlEach(db, GET_BEER_KEGS_SQL, payload.filter).then(beerKegs => {
         const promises = beerKegs.map(({beerBrandId}) => {
 
             return getBeerBrands(app, {filter: {id: beerBrandId}})

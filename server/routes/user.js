@@ -1,5 +1,8 @@
 import express from 'express';
 import userFingerprints from './userFingerprints';
+import {getUserStats} from '../controllers/userStats';
+import {sqlEach} from '../helpers/sql';
+import sqlRunMiddleware from '../middleware/sqlRun';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -8,7 +11,7 @@ const GET_USERS_SQL = `
         users.*,
         (
             SELECT GROUP_CONCAT(f.id)
-            FROM user_fingerprints f
+            FROM userFingerprints f
             WHERE users.id = f.userId
         ) AS fingerprints
     FROM users
@@ -24,70 +27,64 @@ const mapFingerprints = function (row) {
     return row;
 };
 
-router.get('/users', (req, res) => {
-    const db = req.app.locals.db;
-    const data = [];
+router.get('/users', (req, res, next) => {
+    const {db} = req.app.locals;
 
-    db.serialize(() => {
-        db.each(GET_USERS_SQL, (err, row) => {
-            data.push(mapFingerprints(row));
-        }, () => {
-            res.status(200).json(data);
-        });
-    });
+    sqlEach(db, GET_USERS_SQL)
+        .then(users => {
+            users = users.map(user => {
+                return mapFingerprints(user);
+            });
+
+            res.status(200).json(users);
+        })
+        .catch(error => next(error));
 });
 
-router.get('/user/:userId', (req, res) => {
+router.get('/user/stats', (req, res, next) => {
+    getUserStats(req.app)
+        .then(data => res.status(200).json(data))
+        .catch(error => next(error));
+});
+
+router.get('/user/:userId', (req, res, next) => {
     const {userId} = req.params;
     const db = req.app.locals.db;
-    let data = {};
 
-    db.serialize(() => {
-        db.each(GET_USERS_SQL + `WHERE users.id=${userId}`, (err, row) => {
-            data = mapFingerprints(row);
-        }, () => {
-            res.status(200).json(data);
-        });
-    });
+    sqlEach(db, GET_USERS_SQL, {'users.id': userId})
+        .then(users => {
+            users = users.map(user => {
+                return mapFingerprints(user);
+            });
+
+            res.status(200).json(users[0]);
+        })
+        .catch(error => next(error));
 });
 
-router.post('/user', (req, res) => {
-    const db = req.app.locals.db;
+router.post('/user', (req, res, next) => {
     const {email, displayName} = req.body;
 
-    db.serialize(() => {
-        db.run(`
-            INSERT INTO users (email, displayName)
-            VALUES ('${email}', '${displayName}')
-        `, err => {
-            if (err) {
-                res.status(400).json({'message': err});
-            }
+    res.locals.sqlQuery = `
+        INSERT INTO users (email, displayName)
+        VALUES ('${email}', '${displayName}')
+    `;
 
-            res.status(200).json({status: 'OK'});
-        });
-    });
-});
+    next();
+}, sqlRunMiddleware);
 
-router.put('/user/:userId', (req, res) => {
+router.put('/user/:userId', (req, res, next) => {
     const {userId} = req.params;
-    const db = req.app.locals.db;
     const {email, displayName} = req.body;
 
-    db.serialize(() => {
-        db.run(`
-            UPDATE users
-            SET email='${email}', displayName='${displayName}'
-            WHERE id=${userId}
-        `, error => {
-            if (error) {
-                res.status(400).json({error});
-            }
+    res.locals.sqlQuery = `
+        UPDATE users
+        SET email='${email}', displayName='${displayName}'
+        WHERE id=${userId}
+    `;
 
-            res.status(200).json({status: 'OK'});
-        });
-    });
-});
+    next();
+}, sqlRunMiddleware);
 
 router.use('/user', userFingerprints);
 
