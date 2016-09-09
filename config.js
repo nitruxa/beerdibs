@@ -11,7 +11,14 @@ export default {
     cookieDomain: '.beerdibs.com',
     devbox: true,
     db: path.resolve(__dirname, './server/db/test.db'),
-    arduinoHost: '192.168.32.155'
+    arduinoHost: '192.168.32.155',
+    slackBot: {
+        channel: 'teamlt',
+        token: 'xoxp-2175730572-50384117639-66647698881-f68cbf1735',
+        username: 'BeerDibs',
+        'icon_emoji': ':beer:',
+        'link_names': 1
+    }
     // wwwDomainName: process.env.NODE_WWW_DOMAIN || devboxHost,
     // dotComHost: process.env.NODE_BUYER_HOST || devboxHost,
     // cdnDomain: process.env.NODE_CDN_DOMAIN || devboxHost,

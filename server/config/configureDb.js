@@ -18,7 +18,8 @@ const configureDb = function () {
             CREATE TABLE IF NOT EXISTS "users" (
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "email" CHAR(80) NOT NULL,
-                "displayName" CHAR(50) NOT NULL
+                "displayName" CHAR(50) NOT NULL,
+                "slackName" char(50)
             )
         `);
 

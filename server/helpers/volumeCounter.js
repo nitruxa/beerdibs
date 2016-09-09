@@ -1,5 +1,5 @@
 const volumeCounter = function (pulse) {
-    return parseInt(pulse * 0.83333333333); // 1 pulse = 0.83333333333 ml
+    return parseInt(pulse * 0.93333333333);
 };
 
 export default volumeCounter;

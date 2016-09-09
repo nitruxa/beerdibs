@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 let reconnectInterval;
 
 const connectSocket = callback => {
@@ -10,14 +12,14 @@ const connectSocket = callback => {
 
     ws.onmessage = event => {
         const data = JSON.parse(event.data);
-        console.log('{SOCKET}', data);
-        callback(data.event);
+        console.log('{SOCKET}', moment(new Date()).format(), data);
+        callback(data);
     };
 
     ws.onclose = event => {
         clearTimeout(reconnectInterval);
         console.log('Socket is closed. Reconnect will be attempted in 5 second.', event.reason);
-        reconnectInterval = setInterval(() => connectSocket(), 5000);
+        reconnectInterval = setInterval(() => connectSocket(callback), 5000);
     };
 
     ws.onerror = err => {

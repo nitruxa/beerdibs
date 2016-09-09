@@ -3,6 +3,8 @@ import {getFingerPrint} from '../controllers/userFingerprints';
 import {getBeerTaps} from '../controllers/beerTaps';
 import {addUserBeer} from '../controllers/userBeers';
 
+import * as slackBot from './slackBot';
+
 let cacheFingerPrint = null;
 let cacheBeerTaps = {};
 let closeSolenoidTimeout;
@@ -29,7 +31,8 @@ const getFingerPrintCache = (app, payload) => {
 };
 
 const setSolenoidCloseTimeout = eventEmitter => {
-    closeSolenoidTimeout = setTimeout(() => eventEmitter.emit(EVENT_SOLENOID_CLOSE, null), 15000);
+    clearTimeout(closeSolenoidTimeout);
+    closeSolenoidTimeout = setTimeout(() => eventEmitter.emit(EVENT_SOLENOID_CLOSE, {}), 15000);
 };
 
 export const arduinoListener = app => {
@@ -38,6 +41,7 @@ export const arduinoListener = app => {
     eventEmitter.on(EVENT_FINGER_FOUND, payload => {
         const {id} = payload;
 
+        cacheFingerPrint = null;
         cacheBeerTaps = {};
 
         getFingerPrintCache(app, {id})
@@ -54,6 +58,8 @@ export const arduinoListener = app => {
                 arduino.write(sendData + '\n');
 
                 eventEmitter.emit(`socket:${EVENT_FINGER_FOUND}`, fingerPrint);
+                slackBot.fingerFound(fingerPrint);
+                setSolenoidCloseTimeout(eventEmitter);
             })
             .catch(error => {
                 console.error(error);
@@ -69,7 +75,6 @@ export const arduinoListener = app => {
         }
 
         getFingerPrintCache(app, {id: fingerId}).then(() => {
-            clearTimeout(closeSolenoidTimeout);
             setSolenoidCloseTimeout(eventEmitter);
 
             cacheBeerTaps[beerTapPosition] = beerPoured;
@@ -110,8 +115,10 @@ export const arduinoListener = app => {
                 .then(({user, beerTaps}) => {
                     const promises = [];
 
-                    beerTaps.forEach(beerTap => {
+                    beerTaps = beerTaps.map(beerTap => {
                         const volume = beerTapsCopy[beerTap.position];
+                        beerTap.volumePoured = volume;
+
                         promises.push(
                             addUserBeer(app, {
                                 id: user.userId,
@@ -121,18 +128,21 @@ export const arduinoListener = app => {
                                 console.log(`@@ --- Saved +| ${volume} ml from tap ${beerTap.position} to ${user.displayName}`);
                             })
                         );
+
+                        return beerTap;
                     });
 
                     return Promise.all(promises).then(() => {
-                        return {user, beerTaps: beerTapsCopy};
+                        return {user, beerTaps};
                     });
                 })
                 .catch(error => {
                     console.error(error);
                 })
                 .then(({user, beerTaps} = {}) => {
-                    eventEmitter.emit(`socket:${EVENT_SOLENOID_CLOSE}`, {user, beerTaps});
                     cacheFingerPrint = null;
+                    eventEmitter.emit(`socket:${EVENT_SOLENOID_CLOSE}`, {user, beerTaps});
+                    slackBot.beerPoured({user, beerTaps});
                 });
         } else {
             eventEmitter.emit(`socket:${EVENT_SOLENOID_CLOSE}`);
