@@ -8,10 +8,12 @@ const getName = ({slackName, displayName}) => {
 export const say = text => {
     const formData = Object.assign({text}, config.slackBot);
 
-    request.post({
-        url: 'https://slack.com/api/chat.postMessage',
-        formData: formData
-    });
+    if (config.slackBotEnabled) {
+        request.post({
+            url: 'https://slack.com/api/chat.postMessage',
+            formData: formData
+        });
+    }
 };
 
 export const fingerFound = fingerPrint => {

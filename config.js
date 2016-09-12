@@ -12,6 +12,7 @@ export default {
     devbox: true,
     db: path.resolve(__dirname, './server/db/test.db'),
     arduinoHost: '192.168.32.155',
+    slackBotEnabled: false,
     slackBot: {
         channel: 'teamlt',
         token: 'xoxp-2175730572-50384117639-66647698881-f68cbf1735',
