@@ -1,11 +1,21 @@
-import App from "../components/global/App"
-import Dashboard from "../containers/Dashboard"
-import users from "./users"
+import {connect} from 'react-redux';
+
+import App from '../components/global/App';
+import Dashboard from '../containers/Dashboard';
+import users from './users';
+
+import {connectSocket} from '../actions/socket';
+
+const mapStateToProps = ({socketReducer}) => {
+    return socketReducer;
+};
+
+const AppConnected = connect(mapStateToProps, {connectSocket})(App);
 
 const routes = [
     {
         path: '/',
-        component: App,
+        component: AppConnected,
         indexRoute: {
             component: Dashboard
         },
@@ -13,7 +23,7 @@ const routes = [
     },
     {
         path: '*',
-        component: App
+        component: AppConnected
     }
     // indexRoute: { component: Dashboard },
     // childRoutes: [
