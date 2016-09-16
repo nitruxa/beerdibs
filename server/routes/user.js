@@ -63,11 +63,11 @@ router.get('/user/:userId', (req, res, next) => {
 });
 
 router.post('/user', (req, res, next) => {
-    const {email, displayName} = req.body;
+    const {email, displayName, slackName} = req.body;
 
     res.locals.sqlQuery = `
-        INSERT INTO users (email, displayName)
-        VALUES ('${email}', '${displayName}')
+        INSERT INTO users (email, displayName, slackName)
+        VALUES ('${email}', '${displayName}', '${slackName}')
     `;
 
     next();
@@ -75,13 +75,21 @@ router.post('/user', (req, res, next) => {
 
 router.put('/user/:userId', (req, res, next) => {
     const {userId} = req.params;
-    const {email, displayName} = req.body;
+    const {email, displayName, slackName} = req.body;
 
     res.locals.sqlQuery = `
         UPDATE users
-        SET email='${email}', displayName='${displayName}'
+        SET email='${email}', displayName='${displayName}', slackName='${slackName}'
         WHERE id=${userId}
     `;
+
+    next();
+}, sqlRunMiddleware);
+
+router.delete('/user/:userId', (req, res, next) => {
+    const {userId} = req.params;
+
+    res.locals.sqlQuery = `DELETE FROM users WHERE id=${userId}`;
 
     next();
 }, sqlRunMiddleware);

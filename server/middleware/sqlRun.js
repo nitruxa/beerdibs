@@ -1,7 +1,7 @@
 import {sqlRun} from '../helpers/sql';
 
 const sqlRunMiddleware = (req, res, next) => {
-    const {db} = req.app;
+    const {db} = req.app.locals;
     const {sqlQuery} = res.locals;
 
     sqlRun(db, sqlQuery)

@@ -1,10 +1,12 @@
 import {combineReducers} from 'redux';
 
-import globalReducer from './global';
+import uiReducer from './ui';
+import usersReducer from './users';
 import socketReducer from './socket';
 
 const rootReducer = combineReducers({
-    globalReducer,
+    uiReducer,
+    usersReducer,
     socketReducer
 });
 

@@ -6,7 +6,7 @@ const XHR_HEADERS = {
 };
 
 export default function fetchRequest(payload = {}) {
-    const {endpoint, accessToken, data, router} = payload;
+    const {endpoint, accessToken, data} = payload;
     const method = payload.method || 'GET';
     const fetchData = {
         headers: XHR_HEADERS,
@@ -35,14 +35,13 @@ export default function fetchRequest(payload = {}) {
                 } else if (response.status >= 400) {
                     return Promise.reject(response.statusText);
                 }
-
                 return Promise.resolve(response.json());
             })
             .then(response => {
-                resolve(response.data);
+                resolve(response);
             })
             .catch(error => {
                 reject(error);
             });
     });
-}
+};

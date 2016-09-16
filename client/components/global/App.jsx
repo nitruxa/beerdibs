@@ -1,10 +1,16 @@
 import React, { Component, PropTypes } from 'react';
+import {Link} from 'react-router';
 
 import IconHome from 'dibs-vg/dist/react/home';
 import IconBeer from 'dibs-vg/dist/react/baby-bottle';
 import IconUser from 'dibs-vg/dist/react/account-outlined';
 
 import BeerPourOverlay from './BeerPourOverlay';
+
+import {
+    USER_CREATED,
+    USER_REMOVED
+} from '../../actions/user';
 
 require('../../assets/css/base.css');
 
@@ -14,7 +20,38 @@ class App extends Component {
         this.props.connectSocket();
     }
 
+    componentWillReceiveProps(nextProps) {
+        const {history} = this.context;
+        const nextAction = nextProps.ui.action;
+        const prevAction = this.props.ui.action;
+
+        if (prevAction !== nextAction) {
+            switch (nextAction) {
+                case USER_CREATED:
+                case USER_REMOVED:
+                    history.replace('/users');
+                    break;
+            }
+        }
+    }
+
+    isActive(...args) {
+        let active = false;
+
+        args.forEach(url => {
+            const r = new RegExp(url);
+            const testPassed = r.test(this.props.location.pathname);
+            if (!active && testPassed) {
+                active = true;
+            }
+        });
+
+        return active;
+    }
+
     render() {
+        const dashboardIsActive = !this.isActive('/beers', '/users');
+
         return (
             <div>
                 <div className="containerFluid boxSizingWrapper">
@@ -22,10 +59,9 @@ class App extends Component {
                         <div className="colLg2 colXs2 right-col">
                             <div className="logo"></div>
                             <div className="menu">
-                                <a className="menu-item" href="/" title=""><IconHome />Dashboard
-                                </a>
-                                <a className="menu-item" href="/beers" title=""><IconBeer />Beers</a>
-                                <a className="menu-item" href="/users" title=""><IconUser />Users</a>
+                                <Link className={`menu-item ${dashboardIsActive ? 'is-active' : ''}`} to="/" title=""><IconHome />Dashboard</Link>
+                                <Link className={`menu-item ${this.isActive('/beers') ? 'is-active' : ''}`} to="/beers" title=""><IconBeer />Beers</Link>
+                                <Link className={`menu-item ${this.isActive('/users') ? 'is-active' : ''}`} to="/users" title=""><IconUser />Users</Link>
                             </div>
                         </div>
                         <div className="colLg10 colXs10">
@@ -41,8 +77,16 @@ class App extends Component {
 }
 
 App.propTypes = {
-    connectSocket: PropTypes.func.isRequired,
-    children: PropTypes.node
+    location: PropTypes.object.isRequired,
+    children: PropTypes.node,
+    ui: React.PropTypes.shape({
+        action: React.PropTypes.string.isRequired
+    }),
+    connectSocket: PropTypes.func.isRequired
+};
+
+App.contextTypes = {
+    history: PropTypes.object.isRequired
 };
 
 export default App;

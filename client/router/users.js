@@ -1,12 +1,20 @@
-import Users from "../containers/Users"
+import UsersLayout from "../containers/user/UsersLayout";
+import EditUser from "../containers/user/EditUser";
+import NewUser from "../containers/user/NewUser";
 
 const users = [
     {
         path: '/users',
-        indexRoute: {
-            component: Users
-        },
+        component: UsersLayout,
         childRoutes: [
+            {
+                path: '/users/new',
+                component: NewUser
+            },
+            {
+                path: '/users/:userId',
+                component: EditUser
+            }
         ]
     }
 ];
