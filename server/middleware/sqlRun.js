@@ -4,11 +4,18 @@ const sqlRunMiddleware = (req, res, next) => {
     const {db} = req.app.locals;
     const {sqlQuery} = res.locals;
 
-    sqlRun(db, sqlQuery)
-        .then(response => {
-            res.status(200).json(response);
-        })
-        .catch(error => next(error));
+    let sqlPromise;
+
+    if (Array.isArray(sqlQuery)) {
+        sqlPromise = Promise.all(sqlQuery.map(sql => sqlRun(db, sql)));
+    } else {
+        sqlPromise = sqlRun(db, sqlQuery);
+    }
+
+    sqlPromise.then(response => {
+        res.status(200).json(response);
+    })
+    .catch(error => next(error));
 };
 
 export default sqlRunMiddleware;

@@ -1,66 +1,14 @@
+import {sqlEach} from '../helpers/sql';
+
 export const getFingerPrint = function (app, payload) {
-    const {id} = payload;
+    const {id, filter} = payload;
     const {db} = app.locals;
 
     const GET_FINGERPRINT_USER_SQL = `
         SELECT users.*, f.*
         FROM userFingerprints f
         LEFT JOIN users ON users.id = f.userId
-        WHERE f.id=${id}
     `;
 
-    return new Promise((resolve, reject) => {
-        let data = {};
-
-        db.serialize(() => {
-            db.each(GET_FINGERPRINT_USER_SQL, (err, row) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    data = row;
-                }
-            }, () => {
-                resolve(data);
-            });
-        });
-    });
-};
-
-export const addFingerprint = function (app, payload) {
-    const {db} = app.locals;
-    const {userId} = payload;
-
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.run(`
-                INSERT INTO userFingerprints (userId)
-                VALUES (${userId})
-            `, error => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve();
-                }
-            });
-        });
-    });
-};
-
-export const deleteFingerprint = function (app, payload) {
-    const {db} = app.locals;
-    const {id} = payload;
-
-    return new Promise((resolve, reject) => {
-        db.serialize(() => {
-            db.run(`
-                DELETE FROM userFingerprints WHERE id=${id}
-            `, error => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve();
-                }
-            });
-        });
-    });
+    return sqlEach(db, GET_FINGERPRINT_USER_SQL, filter || {'f.id': id});
 };

@@ -5,10 +5,10 @@ class UserForm extends Component {
     constructor(props) {
         super(props);
 
-        const {displayName, email, slackName, fingerprints = []} = props;
+        const {displayName, email, slackName} = props;
 
         this.state = {
-            displayName, email, slackName, fingerprints
+            displayName, email, slackName
         };
 
         this.onChange = this.onChange.bind(this);
@@ -16,9 +16,9 @@ class UserForm extends Component {
         this.removeUser = this.removeUser.bind(this);
     }
 
-    componentWillReceiveProps({displayName, email, slackName, fingerprints = []}) {
+    componentWillReceiveProps({displayName, email, slackName}) {
         this.setState({
-            displayName, email, slackName, fingerprints
+            displayName, email, slackName
         });
     }
 
@@ -60,7 +60,7 @@ class UserForm extends Component {
 
     render() {
         const {ui} = this.props;
-        const {displayName = '', email = '', slackName = '', fingerprints = []} = this.state;
+        const {displayName = '', email = '', slackName = ''} = this.state;
 
         const isSaved = ui.action === USER_SAVED;
 
@@ -87,14 +87,6 @@ class UserForm extends Component {
                         <input className="field-item-intput" name="slackName" value={slackName} onChange={this.onChange} placeholder="Slack name" type="text" />
                     </div>
 
-                    {/*fingerprints.map(fingerprint => {
-                        return (
-                            <div key={fingerprint.id}>
-                                {fingerprint.id}
-                            </div>
-                        );
-                    })*/}
-
                     <div className="actions">
                         <button className="button--primary" type="submit">Save</button>
                         {this.getDeleteUserButton()}
@@ -114,7 +106,6 @@ UserForm.propTypes = {
     displayName: PropTypes.string,
     email: PropTypes.string,
     slackName: PropTypes.string,
-    fingerprints: PropTypes.array,
 
     saveUser: PropTypes.func.isRequired,
     removeUser: PropTypes.func.isRequired,

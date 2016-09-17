@@ -89,7 +89,10 @@ router.put('/user/:userId', (req, res, next) => {
 router.delete('/user/:userId', (req, res, next) => {
     const {userId} = req.params;
 
-    res.locals.sqlQuery = `DELETE FROM users WHERE id=${userId}`;
+    res.locals.sqlQuery = [
+        `DELETE FROM users WHERE id=${userId};`,
+        `DELETE FROM userFingerprints WHERE userId=${userId};`
+    ];
 
     next();
 }, sqlRunMiddleware);
