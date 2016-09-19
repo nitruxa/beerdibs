@@ -1,43 +1,15 @@
 import express from 'express';
 import userFingerprints from './userFingerprints';
-import {getUserStats} from '../controllers/userStats';
-import {sqlEach} from '../helpers/sql';
+import {getUserStats, getUserActivity} from '../controllers/userStats';
+import {getUsers} from '../controllers/user';
 import sqlRunMiddleware from '../middleware/sqlRun';
+
 
 const router = express.Router(); // eslint-disable-line new-cap
 
-const GET_USERS_SQL = `
-    SELECT
-        users.*,
-        (
-            SELECT GROUP_CONCAT(f.id)
-            FROM userFingerprints f
-            WHERE users.id = f.userId
-        ) AS fingerprints
-    FROM users
-`;
-
-const mapFingerprints = function (row) {
-    if (row.fingerprints) {
-        row.fingerprints = row.fingerprints.split(',').map(id => Number(id));
-    } else {
-        row.fingerprints = [];
-    }
-
-    return row;
-};
-
 router.get('/users', (req, res, next) => {
-    const {db} = req.app.locals;
-
-    sqlEach(db, GET_USERS_SQL)
-        .then(users => {
-            users = users.map(user => {
-                return mapFingerprints(user);
-            });
-
-            res.status(200).json(users);
-        })
+    getUsers(req.app)
+        .then(data => res.status(200).json(data))
         .catch(error => next(error));
 });
 
@@ -47,18 +19,17 @@ router.get('/user/stats', (req, res, next) => {
         .catch(error => next(error));
 });
 
+router.get('/user/activity', (req, res, next) => {
+    getUserActivity(req.app, {filter: req.query.filter, limit: req.query.limit})
+        .then(data => res.status(200).json(data))
+        .catch(error => next(error));
+});
+
 router.get('/user/:userId', (req, res, next) => {
     const {userId} = req.params;
-    const db = req.app.locals.db;
 
-    sqlEach(db, GET_USERS_SQL, {'users.id': userId})
-        .then(users => {
-            users = users.map(user => {
-                return mapFingerprints(user);
-            });
-
-            res.status(200).json(users[0]);
-        })
+    getUsers(req.app, {filter: {'users.id': userId}})
+        .then(data => res.status(200).json(data))
         .catch(error => next(error));
 });
 
