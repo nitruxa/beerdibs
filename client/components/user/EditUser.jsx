@@ -49,19 +49,23 @@ class EditUser extends Component {
             removeFingerprint
         } = this.props;
 
-        return (
-            <div>
-                <UserForm ui={ui}
-                    resetUiAction={resetUiAction}
-                    saveUser={this.saveUser}
-                    removeUser={this.removeUser}
-                    {...user} />
-                <UserFingerprints userId={user.id}
-                    fingerprints={fingerprints}
-                    add={addFingerprint}
-                    remove={removeFingerprint} />
-            </div>
-        );
+        if (user.id) {
+            return (
+                <div>
+                    <UserForm ui={ui}
+                        resetUiAction={resetUiAction}
+                        saveUser={this.saveUser}
+                        removeUser={this.removeUser}
+                        {...user} />
+                    <UserFingerprints userId={user.id}
+                        fingerprints={fingerprints}
+                        add={addFingerprint}
+                        remove={removeFingerprint} />
+                </div>
+            );
+        }
+
+        return null;
     }
 }
 

@@ -4,6 +4,9 @@ import {getBeerKegs} from './beerKegs';
 const GET_BEER_TAPS_SQL = `
     SELECT * FROM beerTaps
 `;
+
+const BEER_TAPS_ORDER = `ORDER BY position ASC`;
+
 // SELECT BB.*, ':', beerKegs.*, ':', beerBrands.*
 // FROM beerTaps as BB
 // LEFT JOIN beerKegs ON BB.beerKegId = beerKegs.id
@@ -12,7 +15,7 @@ const GET_BEER_TAPS_SQL = `
 export const getBeerTaps = function (app, payload = {}) {
     const {db} = app.locals;
 
-    return sqlEach(db, GET_BEER_TAPS_SQL, payload.filter).then(beerTaps => {
+    return sqlEach(db, GET_BEER_TAPS_SQL, payload.filter, BEER_TAPS_ORDER).then(beerTaps => {
         const promises = beerTaps.map(({beerKegId}) => {
 
             return getBeerKegs(app, {filter: {id: beerKegId}})

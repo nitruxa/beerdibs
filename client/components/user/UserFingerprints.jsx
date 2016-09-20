@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import IconTrash from 'dibs-vg/dist/react/trash-filled';
+
+import UserFingerprintRow from './UserFingerprintRow';
 
 class UserFingerprints extends Component {
     constructor(props) {
@@ -13,10 +14,6 @@ class UserFingerprints extends Component {
         add(userId);
     }
 
-    removeFingerprint(id) {
-        this.props.remove(id);
-    }
-
     render() {
         const {fingerprints} = this.props;
 
@@ -24,16 +21,8 @@ class UserFingerprints extends Component {
             <div className="section">
                 <div className="header">Fingerprints</div>
                 <div className="list">
-                    {fingerprints.map(({id}) => {
-                        return (
-                            <div className="list-item" key={id}>
-                                ID: {id}
-
-                                <button className="button--icon" onClick={() => this.removeFingerprint(id)}>
-                                    <IconTrash />
-                                </button>
-                            </div>
-                        );
+                    {fingerprints.map(fingerprint => {
+                        return <UserFingerprintRow key={fingerprint.id} {...fingerprint} remove={this.props.remove} />;
                     })}
                 </div>
                 <div className="actions">

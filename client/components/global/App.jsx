@@ -21,7 +21,7 @@ class App extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {history} = this.context;
+        const {router} = this.context;
         const nextAction = nextProps.ui.action;
         const prevAction = this.props.ui.action;
 
@@ -29,7 +29,7 @@ class App extends Component {
             switch (nextAction) {
                 case USER_CREATED:
                 case USER_REMOVED:
-                    history.replace('/users');
+                    router.replace('/users');
                     break;
             }
         }
@@ -95,7 +95,7 @@ App.propTypes = {
 };
 
 App.contextTypes = {
-    history: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
 };
 
 export default App;

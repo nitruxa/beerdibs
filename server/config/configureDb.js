@@ -54,6 +54,7 @@ const configureDb = function () {
                 "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
                 "beerBrandId" integer NOT NULL,
                 "volume" integer,
+                "volumePoured" integer,
                 "price" float,
                 "purchaseDate" varchar(64),
                 "active" integer(1)

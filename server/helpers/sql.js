@@ -1,11 +1,11 @@
 import dbWHere from './dbWHere';
 
-export const sqlEach = (db, sqlQuery, filter) => {
+export const sqlEach = (db, sqlQuery, filter, additionalQuery = '') => {
     return new Promise((resolve, reject) => {
         const data = [];
 
         db.serialize(() => {
-            db.each(sqlQuery + dbWHere(filter), (err, row) => {
+            db.each(sqlQuery + dbWHere(filter) + ' ' + additionalQuery, (err, row) => {
                 if (err) {
                     reject(err);
                 } else {

@@ -8,7 +8,7 @@
     "start": "node index.js",
     "clean": "rm -rf ./node_modules && npm cache clean",
     "cleaninstall": "npm run clean && npm install",
-    "dev": "nodemon index.js --ext js,jsx --watch server --watch client --watch index.js --verbose",
+    "dev": "nodemon index.js --ext js --watch server --watch index.js --verbose",
     "lint": "node_modules/.bin/dibslint -e",
     "gitlint": "node_modules/.bin/dibslint --es6 --git --warnings"
   },

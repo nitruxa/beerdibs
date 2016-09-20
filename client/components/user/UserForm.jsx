@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {USER_SAVED} from '../../actions/user';
+
 import IconUser from 'dibs-vg/dist/react/account-outlined';
+import ConfirmModal from '../global/ConfirmModal';
 
 class UserForm extends Component {
     constructor(props) {
@@ -9,17 +11,19 @@ class UserForm extends Component {
         const {displayName, email, slackName} = props;
 
         this.state = {
-            displayName, email, slackName
+            user: {displayName, email, slackName},
+            removeConfirmIsOpen: false
         };
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.removeUser = this.removeUser.bind(this);
+        this.openConfirmModal = this.openConfirmModal.bind(this);
+        this.closeConfirmModal = this.closeConfirmModal.bind(this);
     }
 
     componentWillReceiveProps({displayName, email, slackName}) {
         this.setState({
-            displayName, email, slackName
+            user: {displayName, email, slackName}
         });
     }
 
@@ -29,31 +33,43 @@ class UserForm extends Component {
 
     onChange(event) {
         const {name, value} = event.target;
-
-        this.setState({
-            [name]: value
-        });
+        const userState = this.state.user;
+        userState[name] = value;
+        this.setState({user: userState});
     }
 
     onSubmit(event) {
         event.preventDefault();
-        this.props.saveUser(this.state);
+        this.props.saveUser(this.state.user);
     }
 
-    removeUser(event) {
-        event.preventDefault();
+    openConfirmModal() {
+        this.setState({removeConfirmIsOpen: true});
+    }
 
-        const deleteUser = confirm("Are you sure?");
-        if (deleteUser === true) {
-            this.props.removeUser();
-        }
+    closeConfirmModal() {
+        this.setState({removeConfirmIsOpen: false});
     }
 
     getDeleteUserButton() {
-        const {id} = this.props;
+        const {id, removeUser} = this.props;
+        const {removeConfirmIsOpen, user: {displayName}} = this.state;
 
         if (id) {
-            return <button className="button--secondary button-small" onClick={this.removeUser} type="reset">Remove User</button>
+            return (
+                <span>
+                    <button className="button--secondary button-small"
+                        onClick={this.openConfirmModal} type="button">
+                        Remove User
+                    </button>
+                    <ConfirmModal isOpen={removeConfirmIsOpen}
+                        copy={{header: 'Remove user', cancel: 'Cancel', confirm: 'Remove'}}
+                        onCancel={this.closeConfirmModal}
+                        onConfirm={removeUser}>
+                        Are you sure you want to remove {displayName}?
+                    </ConfirmModal>
+                </span>
+            );
         }
 
         return null;
@@ -61,24 +77,12 @@ class UserForm extends Component {
 
     render() {
         const {ui} = this.props;
-        const {displayName = '', email = '', slackName = ''} = this.state;
+        const {displayName = '', email = '', slackName = ''} = this.state.user;
         const header = displayName ? displayName : 'Add User';
         const isSaved = ui.action === USER_SAVED;
 
         return (
             <div>
-                <div className="overlay" style={{display: 'none'}}>
-                    <div className="modal">
-                        <div className="modal-content">
-                            <div className="modal-header">Remove user</div>
-                            Are you sure that you want to {displayName}?
-                        </div>
-                        <div className="modal-actions">
-                            <button className="button--secondary" type="submit">Cancel</button>
-                            <button className="button--primary" type="submit">Save</button>
-                        </div>
-                    </div>
-                </div>
                 <div className="header">{header}</div>
                 <form onSubmit={this.onSubmit}>
                     <div className="section">
