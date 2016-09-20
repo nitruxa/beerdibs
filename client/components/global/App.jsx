@@ -59,9 +59,18 @@ class App extends Component {
                         <div className="colLg2 colXs2 right-col">
                             <div className="logo"></div>
                             <div className="menu">
-                                <Link className={`menu-item ${dashboardIsActive ? 'is-active' : ''}`} to="/" title=""><IconHome />Dashboard</Link>
-                                <Link className={`menu-item ${this.isActive('/beers') ? 'is-active' : ''}`} to="/beers" title=""><IconBeer />Beers</Link>
-                                <Link className={`menu-item ${this.isActive('/users') ? 'is-active' : ''}`} to="/users" title=""><IconUser />Users</Link>
+                                <Link className={`menu-item ${dashboardIsActive ? 'is-active' : ''}`} to="/" title="">
+                                    <IconHome />
+                                    <span className="menu-text">Dashboard</span>
+                                </Link>
+                                <Link className={`menu-item ${this.isActive('/beers') ? 'is-active' : ''}`} to="/beers" title="">
+                                    <IconBeer />
+                                    <span className="menu-text">Beers</span>
+                                </Link>
+                                <Link className={`menu-item ${this.isActive('/users') ? 'is-active' : ''}`} to="/users" title="">
+                                    <IconUser />
+                                    <span className="menu-text">Users</span>
+                                </Link>
                             </div>
                         </div>
                         <div className="colLg10 colXs10">

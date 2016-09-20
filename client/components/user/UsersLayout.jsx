@@ -18,11 +18,11 @@ class Users extends Component {
 
         return (
             <div className="rowFlex">
-                <div className="colLg5 section-dark">
+                <div className="colLg5 colXs12  section-dark">
                     <div className="header">
                         Drunkards
 
-                        <Link to="/users/new" style={{color: 'white', float: 'right', fontSize: '0.6em'}}>
+                        <Link to="/users/new" style={{color: 'white', float: 'right', fontSize: '12px'}}>
                             Add new user
                         </Link>
                     </div>
@@ -31,8 +31,8 @@ class Users extends Component {
                             return (
                                 <div key={user.id} className="user-wrapper">
                                     <Link to={`/users/${user.id}`} className="user-link" title="2Michaels">
-                                        <span className="user-image-wraper">
-                                            <img className="user-image" src="https://a.1stdibscdn.com/trade/TRADE_PROFILE/1468509805_tn1sv/thumb/image.jpg" alt="" />
+                                        <span className="user-image-wrapper">
+                                            <IconUser />
                                         </span>
                                         <span className="user-name">{user.displayName}</span>
                                     </Link>
@@ -41,7 +41,7 @@ class Users extends Component {
                         })}
                     </div>
                 </div>
-                <div className="colLg7 section">
+                <div className="colLg7 colXs12 is-scrollable">
                     {this.props.children}
                 </div>
             </div>

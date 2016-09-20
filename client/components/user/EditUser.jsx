@@ -51,7 +51,6 @@ class EditUser extends Component {
 
         return (
             <div>
-                <div className="header">{user.displayName} stats</div>
                 <UserForm ui={ui}
                     resetUiAction={resetUiAction}
                     saveUser={this.saveUser}

@@ -19,7 +19,8 @@
     }
 }
 
-.user-image-wraper {
+.user-image-wrapper {
+    display: block;
     float: left;
     width: 28px;
     height: 28px;
@@ -29,11 +30,24 @@
     text-align: center;
     background: $color-light-tertiary;
 
+    .user-image-profile & {
+        float: none;
+        width: 100px;
+        height: 100px;
+        margin-top: -10px;
+    }
+
     .dibsvg-svg {
         width: 16px;
         height: 16px;
         transform: translateY(30%);
         fill: $color-light-primary;
+
+        .user-image-profile & {
+            width: 50px;
+            height: 49px;
+            transform: translateY(46%);
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import {USER_SAVED} from '../../actions/user';
+import IconUser from 'dibs-vg/dist/react/account-outlined';
 
 class UserForm extends Component {
     constructor(props) {
@@ -52,7 +53,7 @@ class UserForm extends Component {
         const {id} = this.props;
 
         if (id) {
-            return <button className="button--secondary" onClick={this.removeUser} type="reset">Remove</button>
+            return <button className="button--secondary button-small" onClick={this.removeUser} type="reset">Remove User</button>
         }
 
         return null;
@@ -61,38 +62,67 @@ class UserForm extends Component {
     render() {
         const {ui} = this.props;
         const {displayName = '', email = '', slackName = ''} = this.state;
-
+        const header = displayName ? displayName : 'Add User';
         const isSaved = ui.action === USER_SAVED;
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <div className="header">User Form</div>
-                {(() => {
-                    if (isSaved) {
-                        return (
-                            <div>
-                                SAVED!
-                            </div>
-                        );
-                    }
-                })()}
-                <div className="content">
-                    <div className="field-item">
-                        <input className="field-item-intput" name="displayName" value={displayName} onChange={this.onChange} placeholder="Name" type="text" />
-                    </div>
-                    <div className="field-item">
-                        <input className="field-item-intput" name="email" value={email} onChange={this.onChange} placeholder="Email" type="email" />
-                    </div>
-                    <div className="field-item">
-                        <input className="field-item-intput" name="slackName" value={slackName} onChange={this.onChange} placeholder="Slack name" type="text" />
-                    </div>
-
-                    <div className="actions">
-                        <button className="button--primary" type="submit">Save</button>
-                        {this.getDeleteUserButton()}
+            <div>
+                <div className="overlay" style={{display: 'none'}}>
+                    <div className="modal">
+                        <div className="modal-content">
+                            <div className="modal-header">Remove user</div>
+                            Are you sure that you want to {displayName}?
+                        </div>
+                        <div className="modal-actions">
+                            <button className="button--secondary" type="submit">Cancel</button>
+                            <button className="button--primary" type="submit">Save</button>
+                        </div>
                     </div>
                 </div>
-            </form>
+                <div className="header">{header}</div>
+                <form onSubmit={this.onSubmit}>
+                    <div className="section">
+                        <div className="content">
+                            <div className="user-image-profile">
+                                <span className="user-image-wrapper">
+                                    <IconUser />
+                                </span>
+                            </div>
+                            <div className="actions">
+                                {this.getDeleteUserButton()}
+                                <button className="button--primary button-small" type="submit">Edit Photo</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="section">
+                        <div className="header">User Details</div>
+                        <div className="content">
+                            <div className="field-item">
+                                <input className="field-item-intput" name="displayName" value={displayName} onChange={this.onChange} placeholder="Name" type="text" />
+                            </div>
+                            <div className="field-item">
+                                <input className="field-item-intput" name="email" value={email} onChange={this.onChange} placeholder="Email" type="email" />
+                            </div>
+                            <div className="field-item">
+                                <input className="field-item-intput" name="slackName" value={slackName} onChange={this.onChange} placeholder="Slack name" type="text" />
+                            </div>
+
+                            {(() => {
+                                if (isSaved) {
+                                    return (
+                                        <div className="form-notify form-notify--success">
+                                            SAVED!
+                                        </div>
+                                    );
+                                }
+                            })()}
+                            <div className="actions">
+                                <button className="button--primary" type="submit">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         );
     }
 }

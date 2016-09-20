@@ -22,7 +22,7 @@ $button-types: ('primary','secondary');
     display: inline-block;
     vertical-align: top;
     box-sizing: border-box;
-    min-width: 180px;
+    min-width: 150px;
     height: $button-height;
     padding: 0 20px;
     border: 0;
@@ -35,10 +35,12 @@ $button-types: ('primary','secondary');
     text-align: center;
     border-radius: 9999px;
     transition: all 175ms linear;
+    outline: 0;
 
     &.button--primary {
-        @include button($color-light-tertiary-darker, $color-light-tertiary-darker, $color-light-primary);
-        @include button-hover($color-dark-tertiary, $color-dark-tertiary, $color-light-primary);
+        @include button($color-dark-tertiary, $color-dark-tertiary, $color-light-primary);
+        @include button-hover($color-light-tertiary-darker, $color-light-tertiary-darker, $color-light-primary);
+        margin: 0 0 0 auto;
     }
 
     &.button--secondary {
@@ -56,10 +58,39 @@ $button-types: ('primary','secondary');
             outline: 0;
         }
     }
+
+    @include media-breakpoint-down($breakpoint-medium) {
+        min-width: 100px;
+    }
+
 }
 
 @each $type in $button-types {
     .button--#{$type} {
         @extend %button;
+    }
+}
+
+.button-small {
+    height: $button-height - 5px;
+    line-height: $button-line-height - 5px;
+}
+
+.button--icon {
+    display: inline-block;
+    min-width: 20px;
+    box-sizing: border-box;
+    border: 0;
+    cursor: pointer;
+    text-align: center;
+    transition: all 175ms linear;
+    outline: 0;
+    vertical-align: top;
+    background: transparent;
+
+    .dibsvg-svg {
+        width: 18px;
+        height: 18px;
+        fill: $color-dark-tertiary;
     }
 }

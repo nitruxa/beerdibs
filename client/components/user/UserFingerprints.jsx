@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react';
+import IconTrash from 'dibs-vg/dist/react/trash-filled';
 
 class UserFingerprints extends Component {
     constructor(props) {
@@ -20,19 +21,24 @@ class UserFingerprints extends Component {
         const {fingerprints} = this.props;
 
         return (
-            <div>
-                <ol>
+            <div className="section">
+                <div className="header">Fingerprints</div>
+                <div className="list">
                     {fingerprints.map(({id}) => {
                         return (
-                            <li key={id}>
-                                Fingerprint ID: <strong>{id}</strong>
-                                <button onClick={() => this.removeFingerprint(id)}>Remove</button>
-                            </li>
+                            <div className="list-item" key={id}>
+                                ID: {id}
+
+                                <button className="button--icon" onClick={() => this.removeFingerprint(id)}>
+                                    <IconTrash />
+                                </button>
+                            </div>
                         );
                     })}
-                </ol>
-
-                <button onClick={this.addFingerprint}>Add fingerprint</button>
+                </div>
+                <div className="actions">
+                    <button className="button--primary" onClick={this.addFingerprint}>Add fingerprint</button>
+                </div>
             </div>
         );
     }

@@ -1,3 +1,5 @@
+$form-color-success: #58bc4d;
+
 .field-item {
     padding-bottom: 15px;
 }
@@ -6,10 +8,26 @@
     width: 100%;
     padding: 12px 10px;
     font-size: 14px;
-    line-height: 15px;
+    line-height: 1.2;
     font-weight: 300;
     border: none;
     box-sizing: border-box;
     background: $color-light-tertiary;
     outline: none;
+}
+
+.form-notify {
+    padding: 5px;
+    margin-top: 16px;
+    float: left;
+    width: 50%;
+    border-radius: 9999px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: $color-light-primary;
+    text-align: center;
+
+    &--success {
+        background: $form-color-success;
+    }
 }

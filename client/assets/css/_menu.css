@@ -1,3 +1,6 @@
+$menu-icon-size: 16px;
+$menu-icon-mobile-size: 25px;
+
 .menu {
     padding: $gutter 0;
     margin-right: -#{$gutter-half};
@@ -13,16 +16,32 @@
     color: $satans-grey;
     text-decoration: none;
 
+    @include media-breakpoint-down($breakpoint-medium) {
+        text-align: center;
+    }
+
     .dibsvg-svg {
-        width: 16px;
-        height: 16px;
+        width: $menu-icon-size;
+        height: $menu-icon-size;
         margin-right: $gutter-half;
         fill: currentColor;
         vertical-align: middle;
+
+        @include media-breakpoint-down($breakpoint-medium) {
+            width: $menu-icon-mobile-size;
+            height: $menu-icon-mobile-size;
+            margin: auto;
+        }
     }
 
     &.is-active,
     &:hover {
         background: $color-light-secondary-darker;
+    }
+}
+
+.menu-text {
+    @include media-breakpoint-down($breakpoint-medium) {
+        display: none;
     }
 }

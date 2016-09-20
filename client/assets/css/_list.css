@@ -1,0 +1,19 @@
+.list {
+    padding: 0 15px;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0 8px 10px;
+    font-size: 14px;
+    line-height: 1.2;
+
+    .button--icon {
+        margin: 0 0 0 auto;
+    }
+
+    &:hover {
+        background: $color-light-secondary-darker;
+    }
+}

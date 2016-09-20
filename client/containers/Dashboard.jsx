@@ -10,7 +10,7 @@ class UserPage extends Component {
     render() {
         return (
             <div className="rowFlex">
-                <div className="colLg5 section-dark">
+                <div className="colLg5 colXs12 section-dark">
                     <div className="header">On the Tap</div>
                     <div>
                         <div className="beer-tap">
@@ -23,12 +23,12 @@ class UserPage extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="colLg7 section">
+                <div className="colLg7 colXs12 section">
                     <div className="header">Activity</div>
                     <div className="content">
                         <div className="user-wrapper">
                             <a href="/design-firms/2michaels/" className="user-link" title="2Michaels">
-                                <span className="user-image-wraper">
+                                <span className="user-image-wrapper">
                                     <img className="user-image" src="https://a.1stdibscdn.com/trade/TRADE_PROFILE/1468509805_tn1sv/thumb/image.jpg" alt="" />
                                 </span>
                                 <span className="user-name">Charles Tassin poured 0.5l of Kronenbourg Blanc</span>
@@ -37,7 +37,7 @@ class UserPage extends Component {
                         </div>
                         <div className="user-wrapper">
                             <a href="/design-firms/2michaels/" className="user-link" title="2Michaels">
-                                <span className="user-image-wraper">
+                                <span className="user-image-wrapper">
                                     <img className="user-image" src="https://a.1stdibscdn.com/trade/TRADE_PROFILE/1468509805_tn1sv/thumb/image.jpg" alt="" />
                                 </span>
                                 <span className="user-name">David Collins Studio poured 0.5l of Kronenbourg Blanc</span>
@@ -46,7 +46,7 @@ class UserPage extends Component {
                         </div>
                         <div className="user-wrapper">
                             <a href="/design-firms/2michaels/" className="user-link" title="2Michaels">
-                                <span className="user-image-wraper">
+                                <span className="user-image-wrapper">
                                     <IconUser />
                                 </span>
                                 <span className="user-name">Achille Salvagni Atelier poured 0.5l of Kronenbourg Blanc</span>
@@ -55,7 +55,7 @@ class UserPage extends Component {
                         </div>
                         <div className="user-wrapper">
                             <a href="/design-firms/2michaels/" className="user-link" title="2Michaels">
-                                <span className="user-image-wraper">
+                                <span className="user-image-wrapper">
                                     <img className="user-image" src="https://a.1stdibscdn.com/trade/TRADE_PROFILE/1468509805_tn1sv/thumb/image.jpg" alt="" />
                                 </span>
                                 <span className="user-name">Ben Pentreath poured 0.5l of Kronenbourg Blanc</span>
@@ -64,7 +64,7 @@ class UserPage extends Component {
                         </div>
                         <div className="user-wrapper">
                             <a href="/design-firms/2michaels/" className="user-link" title="2Michaels">
-                                <span className="user-image-wraper">
+                                <span className="user-image-wrapper">
                                     <img className="user-image" src="https://a.1stdibscdn.com/trade/TRADE_PROFILE/1468509805_tn1sv/thumb/image.jpg" alt="" />
                                 </span>
                                 <span className="user-name">2Michaels poured 0.5l of Kronenbourg Blanc</span>
@@ -73,7 +73,7 @@ class UserPage extends Component {
                         </div>
                         <div className="user-wrapper">
                             <a href="/design-firms/2michaels/" className="user-link" title="2Michaels">
-                                <span className="user-image-wraper">
+                                <span className="user-image-wrapper">
                                     <img className="user-image" src="https://a.1stdibscdn.com/trade/TRADE_PROFILE/1468509805_tn1sv/thumb/image.jpg" alt="" />
                                 </span>
                                 <span className="user-name">Ben Pentreath poured 0.5l of Kronenbourg Blanc</span>
