@@ -24,7 +24,7 @@ const mapFingerprints = function (row) {
 export const getUsers = (app, payload = {}) => {
     const {db} = app.locals;
 
-    return sqlEach(db, GET_USERS_SQL, payload.filter)
+    return sqlEach(db, GET_USERS_SQL, payload.filter || {'users.active': 1})
         .then(users => {
             return users.map(user => {
                 return mapFingerprints(user);

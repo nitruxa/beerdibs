@@ -61,7 +61,7 @@ router.delete('/user/:userId', (req, res, next) => {
     const {userId} = req.params;
 
     res.locals.sqlQuery = [
-        `DELETE FROM users WHERE id=${userId};`,
+        `UPDATE users SET active=0 WHERE id=${userId};`,
         `DELETE FROM userFingerprints WHERE userId=${userId};`
     ];
 

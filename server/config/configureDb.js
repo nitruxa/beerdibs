@@ -19,7 +19,8 @@ const configureDb = function () {
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "email" CHAR(80) NOT NULL,
                 "displayName" CHAR(50) NOT NULL,
-                "slackName" char(50)
+                "slackName" char(50),
+                "active" integer(1) DEFAULT(1)
             )
         `);
 
@@ -57,7 +58,7 @@ const configureDb = function () {
                 "volumePoured" integer,
                 "price" float,
                 "purchaseDate" varchar(64),
-                "active" integer(1)
+                "active" integer(1) DEFAULT(1)
             );
         `);
 
@@ -66,7 +67,7 @@ const configureDb = function () {
                 "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
                 "beerKegId" integer NOT NULL,
                 "position" integer(128),
-                "active" integer(128)
+                "active" integer(1) DEFAULT(1)
             );
         `);
     });
