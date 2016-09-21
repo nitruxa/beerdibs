@@ -34,6 +34,12 @@ const arduinoConnect = function (app) {
             console.log(`Error connecting to Arduino. Host: ${config.arduinoHost}:${port}`, error);
         });
 
+    arduino.sendData = function (data) {
+        data = JSON.stringify(data);
+        console.log('>> --- Sending to arduino +| ', data);
+        arduino.write(data + '\n');
+    };
+
     return arduino;
 };
 

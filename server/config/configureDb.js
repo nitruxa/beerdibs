@@ -19,6 +19,7 @@ const configureDb = function () {
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
                 "email" CHAR(80) NOT NULL,
                 "displayName" CHAR(50) NOT NULL,
+                "profilePhoto" CHAR(255),
                 "slackName" char(50),
                 "active" integer(1) DEFAULT(1)
             )

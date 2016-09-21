@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {Link} from 'react-router';
 
-import IconUser from 'dibs-vg/dist/react/account-outlined';
+import ProfilePhoto from './ProfilePhoto';
 
 class Users extends Component {
 
@@ -32,7 +32,7 @@ class Users extends Component {
                                 <div key={user.id} className="user-wrapper">
                                     <Link to={`/users/${user.id}`} className="user-link" title="2Michaels">
                                         <span className="user-image-wrapper">
-                                            <IconUser />
+                                            <ProfilePhoto profilePhoto={user.profilePhoto} />
                                         </span>
                                         <span className="user-name">{user.displayName}</span>
                                     </Link>

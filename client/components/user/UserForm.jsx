@@ -1,17 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import {USER_SAVED} from '../../actions/user';
 
-import IconUser from 'dibs-vg/dist/react/account-outlined';
+import ProfilePhoto from './ProfilePhoto';
 import ConfirmModal from '../global/ConfirmModal';
 
 class UserForm extends Component {
     constructor(props) {
         super(props);
 
-        const {displayName, email, slackName} = props;
+        const {displayName, email, slackName, profilePhoto} = props;
 
         this.state = {
-            user: {displayName, email, slackName},
+            user: {displayName, email, slackName, profilePhoto},
             removeConfirmIsOpen: false
         };
 
@@ -21,9 +21,9 @@ class UserForm extends Component {
         this.closeConfirmModal = this.closeConfirmModal.bind(this);
     }
 
-    componentWillReceiveProps({displayName, email, slackName}) {
+    componentWillReceiveProps({displayName, email, slackName, profilePhoto}) {
         this.setState({
-            user: {displayName, email, slackName}
+            user: {displayName, email, slackName, profilePhoto}
         });
     }
 
@@ -77,7 +77,7 @@ class UserForm extends Component {
 
     render() {
         const {ui} = this.props;
-        const {displayName = '', email = '', slackName = ''} = this.state.user;
+        const {displayName = '', email = '', slackName = '', profilePhoto = ''} = this.state.user;
         const header = displayName ? displayName : 'Add User';
         const isSaved = ui.action === USER_SAVED;
 
@@ -89,12 +89,12 @@ class UserForm extends Component {
                         <div className="content">
                             <div className="user-image-profile">
                                 <span className="user-image-wrapper">
-                                    <IconUser />
+                                    <ProfilePhoto profilePhoto={profilePhoto} />
                                 </span>
                             </div>
                             <div className="actions">
                                 {this.getDeleteUserButton()}
-                                <button className="button--primary button-small" type="submit">Edit Photo</button>
+                                <button className="button--primary button-small" type="button">Edit Photo</button>
                             </div>
                         </div>
                     </div>
@@ -138,6 +138,7 @@ UserForm.propTypes = {
 
     id: PropTypes.number,
     displayName: PropTypes.string,
+    profilePhoto: PropTypes.string,
     email: PropTypes.string,
     slackName: PropTypes.string,
 

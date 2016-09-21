@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 import React, { Component, PropTypes } from 'react';
-import IconUser from 'dibs-vg/dist/react/account-outlined';
+import ProfilePhoto from '../user/ProfilePhoto';
 
 class ActivityItem extends Component {
     render() {
@@ -14,7 +14,7 @@ class ActivityItem extends Component {
             <div className="user-wrapper">
                 <span className="user-link">
                     <span className="user-image-wrapper">
-                        <IconUser />
+                        <ProfilePhoto profilePhoto={user.profilePhoto} />
                     </span>
                     <span className="user-name">
                         {user.displayName} poured {volume}ml of {beerBrand.name}
@@ -28,7 +28,8 @@ class ActivityItem extends Component {
 
 ActivityItem.propTypes = {
     user: PropTypes.shape({
-        displayName: PropTypes.string.isRequired
+        displayName: PropTypes.string.isRequired,
+        profilePhoto: PropTypes.string
     }),
     volume: PropTypes.number.isRequired,
     beerKed: PropTypes.shape({

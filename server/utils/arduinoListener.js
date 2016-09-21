@@ -1,5 +1,5 @@
 import volumeCounter from '../helpers/volumeCounter';
-import {getFingerPrint} from '../controllers/userFingerprints';
+import {getFingerprint} from '../controllers/userFingerprints';
 import {getBeerTaps} from '../controllers/beerTaps';
 import {addUserBeer} from '../controllers/userBeers';
 
@@ -14,7 +14,7 @@ export const EVENT_BEER_POUR = 'beer:pour';
 export const EVENT_SOLENOID_OPEN = 'solenoid:open';
 export const EVENT_SOLENOID_CLOSE = 'solenoid:close';
 
-const getFingerPrintCache = (app, payload) => {
+const getFingerprintCache = (app, payload) => {
     const {id} = payload;
 
     if (id < 1) {
@@ -25,7 +25,7 @@ const getFingerPrintCache = (app, payload) => {
         return cacheFingerPrint;
     }
 
-    cacheFingerPrint = getFingerPrint(app, payload);
+    cacheFingerPrint = getFingerprint(app, payload);
 
     return cacheFingerPrint;
 };
@@ -44,18 +44,15 @@ export const arduinoListener = app => {
         cacheFingerPrint = null;
         cacheBeerTaps = {};
 
-        getFingerPrintCache(app, {id})
+        getFingerprintCache(app, {id})
             .then(fingerPrint => {
-                const sendData = JSON.stringify({
+                arduino.sendData({
                     event: 'solenoid',
                     data: {
                         open: true,
                         fingerId: fingerPrint.id
                     }
                 });
-
-                console.log('>> --- Sending to arduino +| ', sendData);
-                arduino.write(sendData + '\n');
 
                 eventEmitter.emit(`socket:${EVENT_FINGER_FOUND}`, fingerPrint);
                 slackBot.fingerFound(fingerPrint);
@@ -74,7 +71,7 @@ export const arduinoListener = app => {
             return;
         }
 
-        getFingerPrintCache(app, {id: fingerId}).then(() => {
+        getFingerprintCache(app, {id: fingerId}).then(() => {
             setSolenoidCloseTimeout(eventEmitter);
 
             cacheBeerTaps[beerTapPosition] = beerPoured;
@@ -100,7 +97,7 @@ export const arduinoListener = app => {
         cacheBeerTaps = {};
 
         if (Object.keys(beerTapsCopy).length) {
-            getFingerPrintCache(app, {id: fingerId})
+            getFingerprintCache(app, {id: fingerId})
                 .then(user => {
                     const filter = {
                         position: Object.keys(beerTapsCopy),
