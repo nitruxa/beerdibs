@@ -6,8 +6,9 @@ import ProfilePhoto from '../user/ProfilePhoto';
 class ActivityItem extends Component {
     render() {
         const {user, volume, beerKed: {beerBrand}, date} = this.props;
-        const diffDays = moment(date).diff(new Date(), 'days');
-        const dateFormat = diffDays < 0 ? 'MMM DD HH:mm' : 'HH:mm';
+        const today = moment(new Date()).format('YYYY-MM-DDT00:00Z');
+        const diffDays = moment(moment(date).format('YYYY-MM-DDT00:00Z')).diff(today, 'days');
+        const dateFormat = diffDays < 0 ? (diffDays > -7 ? 'ddd HH:mm' : 'MMM DD HH:mm') : 'HH:mm';
         const dateFormatted = moment(date).format(dateFormat);
 
         return (
