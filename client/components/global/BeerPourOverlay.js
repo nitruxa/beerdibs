@@ -42,7 +42,7 @@ class BeerPourOverlay extends Component {
 
         if (fingerPrint) {
             return (
-                <div className="overlay" style={{display: 'flex', alignItems: 'center', fontSize: '60px'}}>
+                <div className="overlay" style={{display: 'flex', alignItems: 'center', fontSize: '60px', background: 'rgba(0, 0, 0, 0.7)'}}>
                     <div className="tap-notification" style={{margin: '0 auto', display: 'flex', alignItems: 'center'}}>
                         <div className="beer-tap">
                             <div className="beer-tap-pic" style={{width: '290px', height: '615px'}} />

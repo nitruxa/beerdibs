@@ -2,9 +2,9 @@ import net from 'net';
 import config from '../../config';
 
 const arduinoConnect = function (app) {
-    const port = 23;
+    const {arduino: {port, host}} = config;
     const {eventEmitter} = app.locals;
-    const arduino = net.connect({port, host: config.arduinoHost});
+    const arduino = net.connect({port, host});
     let buffer = '';
 
     arduino
@@ -28,10 +28,10 @@ const arduinoConnect = function (app) {
             }
         })
         .on('connect', () => {
-            console.log(`Connected to Arduino. Host: ${config.arduinoHost}:${port}`);
+            console.log(`Connected to Arduino. Host: ${host}:${port}`);
         })
         .on('error', error => {
-            console.log(`Error connecting to Arduino. Host: ${config.arduinoHost}:${port}`, error);
+            console.log(`Error connecting to Arduino. Host: ${host}:${port}`, error);
         });
 
     arduino.sendData = function (data) {

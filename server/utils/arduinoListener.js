@@ -25,7 +25,7 @@ const getFingerprintCache = (app, payload) => {
         return cacheFingerPrint;
     }
 
-    cacheFingerPrint = getFingerprint(app, payload);
+    cacheFingerPrint = getFingerprint(app, payload).then(fingerprints => fingerprints[0]);
 
     return cacheFingerPrint;
 };

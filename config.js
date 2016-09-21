@@ -2,6 +2,7 @@ import path from 'path';
 
 const devboxHost = "//beerdibs.com";
 const port = Number(process.env.NODE_PORT) || 3001;
+const mimicArduino = process.env.MIMIC_ARDUINO;
 
 export default {
     // app.get('env') returns process.env.NODE_ENV or 'development'
@@ -11,7 +12,11 @@ export default {
     cookieDomain: '.beerdibs.com',
     devbox: true,
     db: path.resolve(__dirname, './server/db/test.db'),
-    arduinoHost: '192.168.32.155',
+    mimicArduino,
+    arduino: {
+        host: mimicArduino ? '127.0.0.1' : '192.168.32.155',
+        port: mimicArduino ? 6969 : 23
+    },
     slackBotEnabled: false,
     slackBot: {
         channel: 'teamlt',
