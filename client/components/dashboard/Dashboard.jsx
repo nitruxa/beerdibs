@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import {SOLENOID_CLOSE} from '../../actions/socket';
+
 import Tap from './Tap';
 import ActivityList from './ActivityList';
 import StatsList from './StatsList';
@@ -12,6 +14,14 @@ class Dashboard extends Component {
 
     componentDidMount() {
         this.props.getTaps();
+    }
+
+    componentDidUpdate(prevProps) {
+        const {socketAction, getTaps} = this.props;
+
+        if (socketAction !== prevProps.socketAction && socketAction === SOLENOID_CLOSE) {
+            getTaps();
+        }
     }
 
     render() {
@@ -35,6 +45,7 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
+    socketAction: PropTypes.string.isRequired,
     taps: PropTypes.array.isRequired,
     getTaps: PropTypes.func.isRequired
 };

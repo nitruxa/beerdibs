@@ -1,10 +1,20 @@
 import React, { Component, PropTypes } from 'react';
+
+import {SOLENOID_CLOSE} from '../../actions/socket';
 import StatsItem from './StatsItem';
 
 class StatsList extends Component {
 
     componentDidMount() {
         this.props.getLastMonthStats();
+    }
+
+    componentDidUpdate(prevProps) {
+        const {socketAction, getLastMonthStats} = this.props;
+
+        if (socketAction !== prevProps.socketAction && socketAction === SOLENOID_CLOSE) {
+            getLastMonthStats();
+        }
     }
 
     render() {
@@ -24,6 +34,7 @@ class StatsList extends Component {
 }
 
 StatsList.propTypes = {
+    socketAction: PropTypes.string.isRequired,
     stats: PropTypes.array.isRequired,
     getLastMonthStats: PropTypes.func.isRequired
 };
