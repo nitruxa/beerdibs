@@ -14,7 +14,7 @@ router.get('/users', (req, res, next) => {
 });
 
 router.get('/user/stats', (req, res, next) => {
-    getUserStats(req.app)
+    getUserStats(req.app, {filter: req.query.filter})
         .then(data => res.status(200).json(data))
         .catch(error => next(error));
 });

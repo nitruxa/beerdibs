@@ -11,12 +11,9 @@ export const getUserStats = (app, payload = {}) => {
         FROM userBeers
         LEFT JOIN users ON userBeers.userId = users.id
         LEFT JOIN beerKegs ON userBeers.beerKegId = beerKegs.id
-        ${dbWHere(payload.filter)}
-        GROUP BY userId
-        ORDER BY volumeTotal DESC
     `;
 
-    return sqlEach(db, GET_USER_STATS_SQL);
+    return sqlEach(db, GET_USER_STATS_SQL, payload.filter, 'GROUP BY userId ORDER BY volumeTotal DESC');
 };
 
 export const getUserActivity = (app, payload = {}) => {

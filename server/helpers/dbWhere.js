@@ -5,10 +5,16 @@ const dbWhere = function (payload = {}) {
         whereFilter = 'WHERE ' + Object.keys(payload).map(field => {
             if (Array.isArray(payload[field])) {
                 return `(${payload[field].map(param => {
-                    return `${field} = ${param}`;
+                    if (param instanceof Object) {
+                        return `${field} ${param.logicalOperator} '${param.value}'`;
+                    } else {
+                        return `${field} = '${param}'`;
+                    }
                 }).join(' OR ')})`;
+            } else if (payload[field] instanceof Object) {
+                return `${field} ${payload[field].logicalOperator} '${payload[field].value}'`;
             } else {
-                return `${field} = ${payload[field]}`;
+                return `${field} = '${payload[field]}'`;
             }
         }).join(' AND ');
     }

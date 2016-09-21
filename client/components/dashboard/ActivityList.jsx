@@ -4,14 +4,14 @@ import ActivityItem from './ActivityItem';
 class ActivityList extends Component {
 
     componentDidMount() {
-        this.props.getActivity();
+        this.props.getActivity(this.props.limit);
     }
 
     render() {
         const {activities} = this.props;
 
         return (
-            <div>
+            <div className="section">
                 <div className="header">Activity</div>
                 <div className="content">
                     {activities.map(activity => {
@@ -24,8 +24,13 @@ class ActivityList extends Component {
 }
 
 ActivityList.propTypes = {
+    limit: PropTypes.number,
     activities: PropTypes.array.isRequired,
     getActivity: PropTypes.func.isRequired
+};
+
+ActivityList.defaultProps = {
+    limit: 10
 };
 
 export default ActivityList;

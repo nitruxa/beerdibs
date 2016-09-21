@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Tap from './Tap';
 import ActivityList from './ActivityList';
+import StatsList from './StatsList';
 
 class Dashboard extends Component {
 
@@ -24,8 +25,9 @@ class Dashboard extends Component {
                         return <Tap key={tap.id} {...tap} />;
                     })}
                 </div>
-                <div className="colLg7 colXs12 section">
+                <div className="colLg7 colXs12">
                     <ActivityList {...this.props} />
+                    <StatsList {...this.props} />
                 </div>
             </div>
         );
