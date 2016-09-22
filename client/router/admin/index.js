@@ -2,7 +2,9 @@ import {connect} from 'react-redux';
 
 import AdminApp from '../../components/global/AdminApp';
 import UsersLayout from "../../containers/admin/user/UsersLayout";
+
 import users from './users';
+import beerBrands from './beerBrands';
 
 const mapStateToProps = ({uiReducer, socketReducer}) => {
     return Object.assign({}, {ui: uiReducer}, socketReducer);
@@ -18,6 +20,7 @@ const routes = [
             component: UsersLayout
         },
         childRoutes: [
+            ...beerBrands,
             ...users
         ]
     },

@@ -46,7 +46,7 @@ const getRolePassword = function ({role, password}) {
     return {};
 };
 
-router.post('/user', (req, res, next) => {
+router.post('/user', userTokenMiddleware(), (req, res, next) => {
     const {email, displayName, slackName} = req.body;
     const {role, password} = getRolePassword(req.body);
 

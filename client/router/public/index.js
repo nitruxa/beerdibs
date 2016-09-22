@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 
 import PublicApp from '../../components/global/PublicApp';
-import Dashboard from '../../containers/Dashboard';
+import Dashboard from '../../containers/public/Dashboard';
 import users from './users';
 
 import {connectSocket} from '../../actions/socket';

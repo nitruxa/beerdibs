@@ -1,20 +1,17 @@
-import React, {/*Component,*/ PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 
 import Form from '../global/Form';
 
-import ProfilePhoto from './ProfilePhoto';
-import UserRolePassword from './UserRolePassword';
-
-class UserForm extends Form {
+class BeerBrandForm extends Form {
 
     getStateProps(props) {
-        const {displayName, email, slackName, profilePhoto, role, password = ''} = props;
-        return {displayName, email, slackName, profilePhoto, role, password};
+        const {id, name, abv} = props;
+        return {id, name, abv: Number.parseFloat(abv)};
     }
 
     render() {
-        const {displayName = '', email = '', slackName = '', profilePhoto = ''} = this.state.user;
-        const header = displayName ? displayName : 'Add User';
+        const {name = '', abv = ''} = this.state.beerBrand;
+        const header = name ? name : 'Add beer brand';
 
         return (
             <div>
@@ -24,29 +21,34 @@ class UserForm extends Form {
                         <div className="content">
                             <div className="user-image-profile">
                                 <span className="user-image-wrapper">
-                                    <ProfilePhoto profilePhoto={profilePhoto} />
+                                    {/*<ProfilePhoto />*/}
                                 </span>
                             </div>
                             <div className="actions">
                                 {this.getDeleteButton()}
-                                <button className="button--primary button-small" type="button">Edit Photo</button>
                             </div>
                         </div>
                     </div>
                     <div className="section">
-                        <div className="header">User Details</div>
+                        <div className="header">Beer brand details</div>
                         <div className="content">
                             <div className="field-item">
-                                <input className="field-item-intput" name="displayName" value={displayName} onChange={this.onChange} placeholder="Name" type="text" />
-                            </div>
-                            <div className="field-item">
-                                <input className="field-item-intput" name="email" value={email} onChange={this.onChange} placeholder="Email" type="email" />
-                            </div>
-                            <div className="field-item">
-                                <input className="field-item-intput" name="slackName" value={slackName} onChange={this.onChange} placeholder="Slack name" type="text" />
+                                <input className="field-item-intput"
+                                    name="name"
+                                    value={name}
+                                    onChange={this.onChange}
+                                    placeholder="Beer title"
+                                    type="text" />
                             </div>
 
-                            <UserRolePassword {...this.state.user} onChange={this.onChange} />
+                            <div className="field-item">
+                                <input className="field-item-intput"
+                                    name="abv"
+                                    value={abv}
+                                    onChange={this.onChange}
+                                    placeholder="Alcohol by volume"
+                                    type="text" />
+                            </div>
 
                             {(() => {
                                 if (this.isSaved()) {
@@ -68,20 +70,20 @@ class UserForm extends Form {
     }
 }
 
-UserForm.propTypes = {
-    ui: React.PropTypes.shape({
-        action: React.PropTypes.string.isRequired
+BeerBrandForm.propTypes = {
+    stateName: PropTypes.string.isRequired,
+
+    ui: PropTypes.shape({
+        action: PropTypes.string.isRequired
     }),
 
     id: PropTypes.number,
-    displayName: PropTypes.string,
-    profilePhoto: PropTypes.string,
-    email: PropTypes.string,
-    slackName: PropTypes.string,
+    name: PropTypes.string,
+    abv: PropTypes.number,
 
     save: PropTypes.func.isRequired,
     remove: PropTypes.func.isRequired,
     resetUiAction: PropTypes.func.isRequired
 };
 
-export default UserForm;
+export default BeerBrandForm;

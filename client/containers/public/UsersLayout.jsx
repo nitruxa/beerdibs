@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 
-import UsersLayout from '../components/user/UsersLayout';
-import * as userActions from '../actions/user';
+import UsersLayout from '../../components/user/UsersLayout';
+import * as userActions from '../../actions/user';
 
 const mapStateToProps = ({usersReducer}) => {
     return {

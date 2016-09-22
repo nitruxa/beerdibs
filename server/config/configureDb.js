@@ -50,7 +50,8 @@ const configureDb = function () {
                 "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
                 "name" varchar(128),
                 "labelUrl" varchar(256),
-                "vol" float(128) DEFAULT(0)
+                "vol" float(128) DEFAULT(0),
+                "active" integer(1) DEFAULT(1)
             );
         `);
 

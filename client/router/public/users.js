@@ -1,4 +1,4 @@
-import UsersLayout from "../../containers/UsersLayout";
+import UsersLayout from "../../containers/public/UsersLayout";
 
 const users = [
     {

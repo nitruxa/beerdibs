@@ -4,27 +4,7 @@ import {Link} from 'react-router';
 import IconBeer from 'dibs-vg/dist/react/baby-bottle';
 import IconUser from 'dibs-vg/dist/react/account-outlined';
 
-import {
-    USER_CREATED,
-    USER_REMOVED
-} from '../../actions/user';
-
 class App extends Component {
-
-    componentWillReceiveProps(nextProps) {
-        const {router} = this.context;
-        const nextAction = nextProps.ui.action;
-        const prevAction = this.props.ui.action;
-
-        if (prevAction !== nextAction) {
-            switch (nextAction) {
-                case USER_CREATED:
-                case USER_REMOVED:
-                    router.replace('/users');
-                    break;
-            }
-        }
-    }
 
     isActive(...args) {
         let active = false;
@@ -41,7 +21,7 @@ class App extends Component {
     }
 
     render() {
-        const usersIsActive = !this.isActive('/beers') || this.isActive('/users');
+        const usersIsActive = !this.isActive('/beer-brands') || this.isActive('/users');
 
         return (
             <div>
@@ -52,9 +32,9 @@ class App extends Component {
                                 <div className="logo"></div>
                             </a>
                             <div className="menu">
-                                <Link className={`menu-item ${this.isActive('/beers') ? 'is-active' : ''}`} to="/beers" title="">
+                                <Link className={`menu-item ${this.isActive('/beer-brands') ? 'is-active' : ''}`} to="/beer-brands" title="">
                                     <IconBeer />
-                                    <span className="menu-text">Beers</span>
+                                    <span className="menu-text">Beer brands</span>
                                 </Link>
                                 <Link className={`menu-item ${usersIsActive ? 'is-active' : ''}`} to="/users" title="">
                                     <IconUser />

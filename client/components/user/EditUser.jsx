@@ -31,12 +31,12 @@ class EditUser extends Component {
 
     saveUser(user) {
         const props = this.props;
-        props.saveUser(Object.assign({id: this.getUserId(props)}, user));
+        props.save(Object.assign({id: this.getUserId(props)}, user));
     }
 
     removeUser() {
         const props = this.props;
-        props.removeUser(this.getUserId(props));
+        props.remove(this.getUserId(props));
     }
 
     render() {
@@ -46,7 +46,8 @@ class EditUser extends Component {
             user,
             fingerprints,
             addFingerprint,
-            removeFingerprint
+            removeFingerprint,
+            formProps
         } = this.props;
 
         if (user.id) {
@@ -54,8 +55,9 @@ class EditUser extends Component {
                 <div>
                     <UserForm ui={ui}
                         resetUiAction={resetUiAction}
-                        saveUser={this.saveUser}
-                        removeUser={this.removeUser}
+                        save={this.saveUser}
+                        remove={this.removeUser}
+                        {...formProps}
                         {...user} />
                     <UserFingerprints userId={user.id}
                         fingerprints={fingerprints}
@@ -76,8 +78,10 @@ EditUser.propTypes = {
     }),
     user: PropTypes.object.isRequired,
     fingerprints: PropTypes.array.isRequired,
-    saveUser: PropTypes.func.isRequired,
-    removeUser: PropTypes.func.isRequired,
+    formProps: PropTypes.object.isRequired,
+
+    save: PropTypes.func.isRequired,
+    remove: PropTypes.func.isRequired,
     resetUiAction: PropTypes.func.isRequired,
 
     getUserFingerprints: PropTypes.func.isRequired,
