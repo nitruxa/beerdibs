@@ -1,37 +1,137 @@
 {% extends "base.nunjucks" %}
 
 {% block root %}
-    <h1>Arduino</h1>
+    <div class="containerFluid boxSizingWrapper">
+        <div class="rowFlex">
+            <div class="colLg2 colXs2 section-dark">
+                <div class="section">
+                    <div class="header">Arduino event list</div>
+                    <div class="content">
+<pre>
+{
+    event: 'finger:found',
+    data: {
+        id: 1 // fingerId
+    }
+}
 
-    <fieldset>
-        <legend>Mimic finger found</legend>
-        <form method="post" action="/arduino/action" target="iframe">
-            <input type="hidden" name="event" value="finger:found" />
-            <input type="text" name="data[id]" placeholder="Finger ID" />
-            <button type="submit">Send</button>
-        </form>
-    </fieldset>
+{
+    event: 'beer:pour',
+    data: {
+        kegPosId: 1,
+        pulses: 0,
+        fingerId: 1
+    }
+}
 
-    <fieldset>
-        <legend>Mimic beer pour</legend>
-        <form method="post" action="/arduino/action" target="iframe">
-            <input type="hidden" name="event" value="beer:pour" />
+{
+    event: 'solenoid:close',
+    data: {
+        fingerId: 1
+    }
+}
 
-            <input type="text" name="data[kegPosId]" placeholder="Tap position id" />
-            <input type="text" name="data[pulses]" placeholder="Pulses from flow meter" />
-            <input type="text" name="data[fingerId]" placeholder="Finger ID" />
-            <button type="submit">Send</button>
-        </form>
-    </fieldset>
+{
+    event: 'finger:scanner-active',
+    data: {
+        fingerId: 1
+    }
+}
 
-    <fieldset>
-        <legend>Mimic close solenoid valve</legend>
-        <form method="post" action="/arduino/action" target="iframe">
-            <input type="hidden" name="event" value="solenoid:close" />
-            <input type="text" name="data[fingerId]" placeholder="Finger ID" />
-            <button type="submit">Send</button>
-        </form>
-    </fieldset>
+{
+    event: 'finger:saved',
+    data: {
+        fingerId: 1
+    }
+}
+</pre>
+                    </div>
+                </div>
+            </div>
+            <div class="colLg5 colXs10">
+                <div class="header">Beer pour process</div>
 
-    <iframe name="iframe" style="display: none"></iframe>
+                <form class="section" method="post" action="/arduino/action" target="iframe">
+                    <input type="hidden" name="event" value="finger:found" />
+
+                    <div class="header">Mimic finger found</div>
+                    <div class="content">
+
+                        <div class="field-item">
+                            <input class="field-item-intput" type="text" name="data[id]" placeholder="Finger ID" />
+                        </div>
+                        <div class="actions">
+                            <button class="button--primary" type="submit">Send</button>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="section" method="post" action="/arduino/action" target="iframe">
+                    <input type="hidden" name="event" value="beer:pour" />
+                    <div class="header">Mimic beer pour</div>
+
+                    <div class="content">
+                        <div class="field-item">
+                            <input class="field-item-intput" type="text" name="data[kegPosId]" placeholder="Tap position id" />
+                        </div>
+                        <div class="field-item">
+                            <input class="field-item-intput" type="text" name="data[pulses]" placeholder="Pulses from flow meter" />
+                        </div>
+                        <div class="field-item">
+                            <input class="field-item-intput" type="text" name="data[fingerId]" placeholder="Finger ID" />
+                        </div>
+                        <div class="actions">
+                            <button class="button--primary" type="submit">Send</button>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="section" method="post" action="/arduino/action" target="iframe">
+                    <input type="hidden" name="event" value="solenoid:close" />
+                    <div class="header">Mimic close solenoid valve</div>
+
+                    <div class="content">
+                        <div class="field-item">
+                            <input class="field-item-intput" type="text" name="data[fingerId]" placeholder="Finger ID" />
+                        </div>
+                        <div class="actions">
+                            <button class="button--primary" type="submit">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="colLg5 colXs10">
+                <div class="header">Fingerprint process</div>
+
+                <form class="section" method="post" action="/arduino/action" target="iframe">
+                    <input type="hidden" name="event" value="finger:scanner-active" />
+
+                    <div class="header">Mimic scanner activated</div>
+                    <div class="content">
+                        <div class="field-item">
+                            <input class="field-item-intput" type="text" name="data[fingerId]" placeholder="Finger ID" />
+                        </div>
+                        <div class="actions">
+                            <button class="button--primary" type="submit">Send</button>
+                        </div>
+                    </div>
+                </form>
+
+                <form class="section" method="post" action="/arduino/action" target="iframe">
+                    <input type="hidden" name="event" value="finger:saved" />
+                    <div class="header">Mimic finger scanned and saved</div>
+
+                    <div class="content">
+                        <div class="field-item">
+                            <input class="field-item-intput" type="text" name="data[id]" placeholder="Finger ID" />
+                        </div>
+                        <div class="actions">
+                            <button class="button--primary" type="submit">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <iframe name="iframe" style="display: none"></iframe>
+        </div>
+    </div>
 {% endblock %}
