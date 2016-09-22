@@ -1,6 +1,6 @@
-import UsersLayout from "../containers/user/UsersLayout";
-import EditUser from "../containers/user/EditUser";
-import NewUser from "../containers/user/NewUser";
+import UsersLayout from "../../containers/admin/user/UsersLayout";
+import EditUser from "../../containers/admin/user/EditUser";
+import NewUser from "../../containers/admin/user/NewUser";
 
 const users = [
     {

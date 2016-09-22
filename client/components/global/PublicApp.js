@@ -7,32 +7,10 @@ import IconUser from 'dibs-vg/dist/react/account-outlined';
 
 import BeerPourOverlay from './BeerPourOverlay';
 
-import {
-    USER_CREATED,
-    USER_REMOVED
-} from '../../actions/user';
-
-require('../../assets/css/base.css');
-
 class App extends Component {
 
     componentDidMount() {
         this.props.connectSocket();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {router} = this.context;
-        const nextAction = nextProps.ui.action;
-        const prevAction = this.props.ui.action;
-
-        if (prevAction !== nextAction) {
-            switch (nextAction) {
-                case USER_CREATED:
-                case USER_REMOVED:
-                    router.replace('/users');
-                    break;
-            }
-        }
     }
 
     isActive(...args) {
@@ -50,14 +28,16 @@ class App extends Component {
     }
 
     render() {
-        const dashboardIsActive = !this.isActive('/beers', '/users');
+        const dashboardIsActive = !this.isActive('/beers') && !this.isActive('/users');
 
         return (
             <div>
                 <div className="containerFluid boxSizingWrapper">
                     <div className="rowFlex">
                         <div className="colLg2 colXs2 right-col">
-                            <div className="logo"></div>
+                            <a href="/" title="">
+                                <div className="logo"></div>
+                            </a>
                             <div className="menu">
                                 <Link className={`menu-item ${dashboardIsActive ? 'is-active' : ''}`} to="/" title="">
                                     <IconHome />
@@ -71,6 +51,9 @@ class App extends Component {
                                     <IconUser />
                                     <span className="menu-text">Users</span>
                                 </Link>
+                                <a href="/admin" className="menu-item">
+                                    <span className="menu-text">Admin</span>
+                                </a>
                             </div>
                         </div>
                         <div className="colLg10 colXs10">

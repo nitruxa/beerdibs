@@ -5,7 +5,7 @@ export const sqlEach = (db, sqlQuery, filter, additionalQuery = '') => {
         const data = [];
 
         db.serialize(() => {
-            db.each(sqlQuery + dbWHere(filter) + ' ' + additionalQuery, (err, row) => {
+            db.each(sqlQuery + ' ' + dbWHere(filter) + ' ' + additionalQuery, (err, row) => {
                 if (err) {
                     reject(err);
                 } else {

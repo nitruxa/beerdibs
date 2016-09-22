@@ -21,7 +21,10 @@ const configureDb = function () {
                 "displayName" CHAR(50) NOT NULL,
                 "profilePhoto" CHAR(255),
                 "slackName" char(50),
-                "active" integer(1) DEFAULT(1)
+                "active" integer(1) DEFAULT(1),
+                "role"  char(32) DEFAULT 'user',
+                "password" char(255),
+                "userToken" char(255)
             )
         `);
 

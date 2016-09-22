@@ -1,17 +1,18 @@
 import React, {Component, PropTypes} from 'react';
 import {USER_SAVED} from '../../actions/user';
 
-import ProfilePhoto from './ProfilePhoto';
 import ConfirmModal from '../global/ConfirmModal';
+import ProfilePhoto from './ProfilePhoto';
+import UserRolePassword from './UserRolePassword';
 
 class UserForm extends Component {
     constructor(props) {
         super(props);
 
-        const {displayName, email, slackName, profilePhoto} = props;
+        const {displayName, email, slackName, profilePhoto, role} = props;
 
         this.state = {
-            user: {displayName, email, slackName, profilePhoto},
+            user: {displayName, email, slackName, profilePhoto, role, password: ''},
             removeConfirmIsOpen: false
         };
 
@@ -21,14 +22,18 @@ class UserForm extends Component {
         this.closeConfirmModal = this.closeConfirmModal.bind(this);
     }
 
-    componentWillReceiveProps({displayName, email, slackName, profilePhoto}) {
+    componentWillReceiveProps({displayName, email, slackName, profilePhoto, role}) {
         this.setState({
-            user: {displayName, email, slackName, profilePhoto}
+            user: {displayName, email, slackName, profilePhoto, role, password: ''}
         });
     }
 
     componentWillUnmount() {
         this.props.resetUiAction();
+    }
+
+    isSaved() {
+        return this.props.ui.action === USER_SAVED;
     }
 
     onChange(event) {
@@ -76,10 +81,8 @@ class UserForm extends Component {
     }
 
     render() {
-        const {ui} = this.props;
         const {displayName = '', email = '', slackName = '', profilePhoto = ''} = this.state.user;
         const header = displayName ? displayName : 'Add User';
-        const isSaved = ui.action === USER_SAVED;
 
         return (
             <div>
@@ -111,8 +114,10 @@ class UserForm extends Component {
                                 <input className="field-item-intput" name="slackName" value={slackName} onChange={this.onChange} placeholder="Slack name" type="text" />
                             </div>
 
+                            <UserRolePassword {...this.state.user} onChange={this.onChange} />
+
                             {(() => {
-                                if (isSaved) {
+                                if (this.isSaved()) {
                                     return (
                                         <div className="form-notify form-notify--success">
                                             SAVED!

@@ -2,6 +2,7 @@ import fetch from 'isomorphic-fetch';
 import qs from 'qs';
 
 const XHR_HEADERS = {
+    'Accept': 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded'
 };
 
@@ -10,6 +11,7 @@ export default function fetchRequest(payload = {}) {
     const method = payload.method || 'GET';
     const fetchData = {
         headers: XHR_HEADERS,
+        credentials: 'same-origin',
         method
     };
     const query = {accessToken};
@@ -31,7 +33,7 @@ export default function fetchRequest(payload = {}) {
         fetch(endpoint + '?' + qs.stringify(query, {encode: false}), fetchData)
             .then(response => {
                 if (response.status === 401) {
-                    return Promise.reject('USER_AUTHENTICATION_FAILED');
+                    window.location.reload();
                 } else if (response.status >= 400) {
                     return Promise.reject(response.statusText);
                 }

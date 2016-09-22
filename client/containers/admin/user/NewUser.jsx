@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 
-import UserForm from '../../components/user/UserForm';
-import * as userActions from '../../actions/user';
+import UserForm from '../../../components/user/UserForm';
+import * as userActions from '../../../actions/user';
 
 const mapStateToProps = ({uiReducer}) => {
     return {

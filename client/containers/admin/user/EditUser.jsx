@@ -1,10 +1,10 @@
 import {connect} from 'react-redux';
 
-import * as uiActions from '../../actions/ui';
-import * as userActions from '../../actions/user';
-import * as fingerprintActions from '../../actions/fingerprint';
+import * as uiActions from '../../../actions/ui';
+import * as userActions from '../../../actions/user';
+import * as fingerprintActions from '../../../actions/fingerprint';
 
-import EditUser from '../../components/user/EditUser';
+import EditUser from '../../../components/user/EditUser';
 
 const mapStateToProps = ({uiReducer, usersReducer, fingerprintReducer}, {params}) => {
     const userId = Number.parseInt(params.userId);

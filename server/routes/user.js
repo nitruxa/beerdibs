@@ -1,9 +1,11 @@
 import express from 'express';
+import passwordHash from 'password-hash';
+
 import userFingerprints from './userFingerprints';
 import {getUserStats, getUserActivity} from '../controllers/userStats';
 import {getUsers} from '../controllers/user';
 import sqlRunMiddleware from '../middleware/sqlRun';
-
+import userTokenMiddleware from '../middleware/userToken';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -33,31 +35,57 @@ router.get('/user/:userId', (req, res, next) => {
         .catch(error => next(error));
 });
 
+const getRolePassword = function ({role, password}) {
+    if (role === 'admin' && password) {
+        return {
+            role,
+            password: passwordHash.generate(password)
+        };
+    }
+
+    return {};
+};
+
 router.post('/user', (req, res, next) => {
     const {email, displayName, slackName} = req.body;
+    const {role, password} = getRolePassword(req.body);
 
     res.locals.sqlQuery = `
-        INSERT INTO users (email, displayName, slackName)
-        VALUES ('${email}', '${displayName}', '${slackName}')
+        INSERT INTO users (email, displayName, slackName ${role && password ? `, role, password` : '' })
+        VALUES ('${email}', '${displayName}', '${slackName}' ${role && password ? `, '${role}', '${password}'` : '' } )
     `;
 
     next();
 }, sqlRunMiddleware);
 
-router.put('/user/:userId', (req, res, next) => {
+router.put('/user/:userId', userTokenMiddleware(), (req, res, next) => {
     const {userId} = req.params;
     const {email, displayName, slackName} = req.body;
+    const {role, password} = getRolePassword(req.body);
+
+    let roleAndPassword = '';
+
+    if (role && password) {
+        roleAndPassword = `,
+            role='${role}',
+            password='${password}'
+        `;
+    }
 
     res.locals.sqlQuery = `
         UPDATE users
-        SET email='${email}', displayName='${displayName}', slackName='${slackName}'
+        SET
+            email='${email}',
+            displayName='${displayName}',
+            slackName='${slackName}'
+            ${roleAndPassword}
         WHERE id=${userId}
     `;
 
     next();
 }, sqlRunMiddleware);
 
-router.delete('/user/:userId', (req, res, next) => {
+router.delete('/user/:userId', userTokenMiddleware(), (req, res, next) => {
     const {userId} = req.params;
 
     res.locals.sqlQuery = [

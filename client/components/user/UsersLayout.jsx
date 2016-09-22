@@ -3,34 +3,27 @@ import {Link} from 'react-router';
 
 import ProfilePhoto from './ProfilePhoto';
 
-class Users extends Component {
-
-    constructor(props) {
-        super(props);
-    }
+class UsersLayout extends Component {
 
     componentDidMount() {
         this.props.loadUsers();
     }
 
     render() {
-        const {users} = this.props;
+        const {users, headerActions} = this.props;
 
         return (
             <div className="rowFlex">
                 <div className="colLg5 colXs12  section-dark">
                     <div className="header">
                         Drunkards
-
-                        <Link to="/users/new" style={{color: 'white', float: 'right', fontSize: '12px'}}>
-                            Add new user
-                        </Link>
+                        {headerActions}
                     </div>
                     <div className="content">
                         {users.map(user => {
                             return (
                                 <div key={user.id} className="user-wrapper">
-                                    <Link to={`/users/${user.id}`} className="user-link" title="2Michaels">
+                                    <Link to={`/users/${user.id}`} className="user-link" title={user.displayName}>
                                         <span className="user-image-wrapper">
                                             <ProfilePhoto profilePhoto={user.profilePhoto} />
                                         </span>
@@ -49,12 +42,13 @@ class Users extends Component {
     }
 }
 
-Users.propTypes = {
+UsersLayout.propTypes = {
     children: PropTypes.node,
+    headerActions: PropTypes.node,
     users: PropTypes.array.isRequired,
     loadUsers: PropTypes.func.isRequired
 };
 
-Users.defaultProps = {};
+UsersLayout.defaultProps = {};
 
-export default Users;
+export default UsersLayout;

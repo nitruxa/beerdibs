@@ -89,7 +89,7 @@ app.use(cache.middleware(cacheOptions));
 app.use(router);
 
 app.use('*', (req, res) => {
-    res.status(200).render('base');
+    res.status(200).render('dashboard');
 });
 
 // add arduino event listeners

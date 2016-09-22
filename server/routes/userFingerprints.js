@@ -1,6 +1,7 @@
 import express from 'express';
 import {getNextFingerprintId, getFingerprint} from '../controllers/userFingerprints';
 import sqlRunMiddleware from '../middleware/sqlRun';
+import userTokenMiddleware from '../middleware/userToken';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -20,7 +21,7 @@ router.get('/fingerprint/:id', (req, res, next) => {
         .catch(error => next(error));
 });
 
-router.post('/fingerprint', (req, res, next) => {
+router.post('/fingerprint', userTokenMiddleware(), (req, res, next) => {
     const {app, body: {userId}} = req;
 
     getNextFingerprintId(app)
@@ -43,7 +44,7 @@ router.post('/fingerprint', (req, res, next) => {
         .catch(error => next(error));
 }, sqlRunMiddleware);
 
-router.delete('/fingerprint/:id', (req, res, next) => {
+router.delete('/fingerprint/:id', userTokenMiddleware(), (req, res, next) => {
     const {id} = req.params;
 
     res.locals.sqlQuery = [
