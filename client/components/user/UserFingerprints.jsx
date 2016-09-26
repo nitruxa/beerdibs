@@ -10,8 +10,8 @@ class UserFingerprints extends Component {
     }
 
     addFingerprint() {
-        const {userId, add} = this.props;
-        add(userId);
+        const {user, add} = this.props;
+        add(user);
     }
 
     render() {
@@ -34,7 +34,7 @@ class UserFingerprints extends Component {
 }
 
 UserFingerprints.propTypes = {
-    userId: PropTypes.number.isRequired,
+    user: PropTypes.object.isRequired,
     fingerprints: PropTypes.array.isRequired,
 
     add: PropTypes.func.isRequired,

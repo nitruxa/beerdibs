@@ -1,16 +1,17 @@
 import React, {PropTypes} from 'react';
 
 import Form from '../global/Form';
+import PreviewImage from '../global/PreviewImage';
 
 class BeerBrandForm extends Form {
 
     getStateProps(props) {
-        const {id, name, abv} = props;
-        return {id, name, abv: Number.parseFloat(abv)};
+        const {id, name, abv, label} = props;
+        return {id, name, abv: Number.parseFloat(abv), label};
     }
 
     render() {
-        const {name = '', abv = ''} = this.state.beerBrand;
+        const {name = '', abv = '', label} = this.state.beerBrand;
         const header = name ? name : 'Add beer brand';
 
         return (
@@ -21,7 +22,7 @@ class BeerBrandForm extends Form {
                         <div className="content">
                             <div className="user-image-profile">
                                 <span className="user-image-wrapper">
-                                    {/*<ProfilePhoto />*/}
+                                    <PreviewImage image={label} folderPath="/uploads/beerBrands" />
                                 </span>
                             </div>
                             <div className="actions">
@@ -39,6 +40,14 @@ class BeerBrandForm extends Form {
                                     onChange={this.onChange}
                                     placeholder="Beer title"
                                     type="text" />
+                            </div>
+
+                            <div className="field-item">
+                                <input className="field-item-intput"
+                                    name="label"
+                                    onChange={this.onChangeFile}
+                                    placeholder="Label"
+                                    type="file" />
                             </div>
 
                             <div className="field-item">

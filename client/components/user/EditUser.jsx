@@ -59,7 +59,7 @@ class EditUser extends Component {
                         remove={this.removeUser}
                         {...formProps}
                         {...user} />
-                    <UserFingerprints userId={user.id}
+                    <UserFingerprints user={user}
                         fingerprints={fingerprints}
                         add={addFingerprint}
                         remove={removeFingerprint} />

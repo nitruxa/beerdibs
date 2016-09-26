@@ -29,7 +29,6 @@ class UserForm extends Form {
                             </div>
                             <div className="actions">
                                 {this.getDeleteButton()}
-                                <button className="button--primary button-small" type="button">Edit Photo</button>
                             </div>
                         </div>
                     </div>
@@ -38,6 +37,13 @@ class UserForm extends Form {
                         <div className="content">
                             <div className="field-item">
                                 <input className="field-item-intput" name="displayName" value={displayName} onChange={this.onChange} placeholder="Name" type="text" />
+                            </div>
+                            <div className="field-item">
+                                <input className="field-item-intput"
+                                    name="profilePhoto"
+                                    onChange={this.onChangeFile}
+                                    placeholder="Profile photo"
+                                    type="file" />
                             </div>
                             <div className="field-item">
                                 <input className="field-item-intput" name="email" value={email} onChange={this.onChange} placeholder="Email" type="email" />

@@ -2,11 +2,11 @@ import fetch from 'isomorphic-fetch';
 import qs from 'qs';
 
 const XHR_HEADERS = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Accept': 'application/json'
 };
 
 export default function fetchRequest(payload = {}) {
+    const formData = new FormData();
     const {endpoint, accessToken, data} = payload;
     const method = payload.method || 'GET';
     const fetchData = {
@@ -19,8 +19,19 @@ export default function fetchRequest(payload = {}) {
     switch (method) {
         case 'POST':
         case 'PUT':
+            Object.keys(data).forEach(fieldName => {
+                const fieldValue = data[fieldName];
+                const dataArray = [fieldName, fieldValue];
+
+                if (fieldValue instanceof File) {
+                    dataArray.push(fieldValue.name);
+                }
+
+                formData.append(...dataArray);
+            });
+
             Object.assign(fetchData, {
-                body: qs.stringify(data)
+                body: formData
             });
             break;
 

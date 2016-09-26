@@ -29,10 +29,11 @@ class UserFingerprintRow extends Component {
     }
 
     render() {
-        const {id} = this.props;
+        const {id, status} = this.props;
         return (
             <div className="list-item">
                 ID: {id}
+                {status}
                 <button className="button--icon" onClick={this.openConfirm}>
                     <IconTrash />
                 </button>
@@ -49,6 +50,7 @@ class UserFingerprintRow extends Component {
 
 UserFingerprintRow.propTypes = {
     id: PropTypes.number.isRequired,
+    status: PropTypes.string.isRequired,
     remove: PropTypes.func.isRequired
 };
 

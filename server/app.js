@@ -7,6 +7,7 @@ import cache from 'cache-headers';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpack from 'webpack';
 import nunjucks from 'nunjucks';
+import multer from 'multer';
 
 import configure from './config/configure';
 import router from './routes';
@@ -70,6 +71,8 @@ app.use(express.static(__dirname + '../public', {
     etag: false
 }));
 
+app.use('/uploads', express.static('uploads'));
+
 /**
  * TODO: Get last deploy file
  * Set default cache headers based on the last deploy; ignore this on devbox
@@ -81,8 +84,13 @@ if (!app.locals.devbox) {
     app.locals.logger.info('Setting additional cache headers', headers);
 }
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+const upload = multer({
+    dest: __dirname + '/../uploads'
+});
+
+app.use(upload.any());
+app.use(bodyParser.json({limit: '5mb'}));
+app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 app.use(cookieParser());
 app.use(cache.middleware(cacheOptions));
 

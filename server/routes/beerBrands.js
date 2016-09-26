@@ -1,5 +1,6 @@
 import express from 'express';
 import {getBeerBrands} from '../controllers/beerBrands';
+import renameUploadedImages from '../helpers/renameUploadedImages';
 
 import sqlRunMiddleware from '../middleware/sqlRun';
 import userTokenMiddleware from '../middleware/userToken';
@@ -33,22 +34,36 @@ router.post('/brand', userTokenMiddleware(), (req, res, next) => {
     `;
 
     next();
-}, sqlRunMiddleware);
+}, sqlRunMiddleware, (req, res, next) => {
+    res.locals.sqlQuery = null;
+
+    if (Object.keys(req.files).length) {
+        const sqlQuery = renameUploadedImages(res.locals.lastInsertId, req.files, 'beerBrands');
+        res.locals.sqlQuery = sqlQuery;
+    }
+
+    next();
+}, sqlRunMiddleware, (req, res) => res.status(200).json({status: 'OK'}));
 
 router.put('/brand/:id', userTokenMiddleware(), (req, res, next) => {
     const {id} = req.params;
     const {name, abv} = req.body;
 
-    res.locals.sqlQuery = `
+    res.locals.sqlQuery = [`
         UPDATE beerBrands
         SET
             name='${name}',
             abv='${abv}'
         WHERE id=${id}
-    `;
+    `];
+
+    if (Object.keys(req.files).length) {
+        const sqlQuery = renameUploadedImages(id, req.files, 'beerBrands');
+        res.locals.sqlQuery.push(sqlQuery);
+    }
 
     next();
-}, sqlRunMiddleware);
+}, sqlRunMiddleware, (req, res) => res.status(200).json({status: 'OK'}));
 
 router.delete('/brand/:id', userTokenMiddleware(), (req, res, next) => {
     const {id} = req.params;
@@ -56,6 +71,6 @@ router.delete('/brand/:id', userTokenMiddleware(), (req, res, next) => {
     res.locals.sqlQuery = `UPDATE beerBrands SET active = 0 WHERE id = ${id};`;
 
     next();
-}, sqlRunMiddleware);
+}, sqlRunMiddleware, (req, res) => res.status(200).json({status: 'OK'}));
 
 export default router;

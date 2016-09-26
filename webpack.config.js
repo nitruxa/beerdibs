@@ -16,7 +16,8 @@ const entry = entryFiles.reduce((obj, entryFile) => {
 
 export default {
     context: __dirname,
-    devtool: '#cheap-module-eval-source-map',
+    // devtool: '#cheap-module-eval-source-map',
+    devtool: 'cheap-source-map',
     entry: entry,
     output: {
         filename: `[name].js`,

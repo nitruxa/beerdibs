@@ -23,7 +23,7 @@ class BeerBrandsLayout extends Component {
                                 <div key={beerBrand.id} className="user-wrapper">
                                     <Link to={`/beer-brands/${beerBrand.id}`} className="user-link" title={beerBrand.name}>
                                         <span className="user-image-wrapper">
-                                            dd
+                                            <img src={`/uploads/beerBrands/${beerBrand.label}`} style={{width: '100%'}} />
                                         </span>
                                         <span className="user-name">{beerBrand.name}</span>
                                     </Link>

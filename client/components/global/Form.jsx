@@ -11,6 +11,7 @@ class Form extends Component {
         };
 
         this.onChange = this.onChange.bind(this);
+        this.onChangeFile = this.onChangeFile.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.openConfirmModal = this.openConfirmModal.bind(this);
         this.closeConfirmModal = this.closeConfirmModal.bind(this);
@@ -57,6 +58,18 @@ class Form extends Component {
         newState[name] = value;
         this.setState({
             [stateName]: newState
+        });
+    }
+
+    onChangeFile(event) {
+        const {stateName} = this.props;
+        const {name, files: [file]} = event.target;
+        const state = this.state[stateName];
+
+        this.setState({
+            [stateName]: Object.assign(state, {
+                [name]: file
+            })
         });
     }
 

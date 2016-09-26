@@ -22,6 +22,7 @@ const beerBrandReducer = function (state = initialState, action) {
             return Object.assign({}, state, {beerBrands: action.beerBrands.sort(sortBrands)});
 
         case BEER_BRAND_SAVED:
+            action.beerBrand.label = `${action.beerBrand.id}_label?${new Date().getTime()}`;
             beerBrands = state.beerBrands.map(beerBrand => {
                 if (beerBrand.id === action.beerBrand.id) {
                     beerBrand = action.beerBrand;

@@ -1,5 +1,5 @@
 import volumeCounter from '../helpers/volumeCounter';
-import {getFingerprint} from '../controllers/userFingerprints';
+import {getFingerprint, updateFingerprintStatus} from '../controllers/userFingerprints';
 import {getBeerTaps} from '../controllers/beerTaps';
 import {addUserBeer} from '../controllers/userBeers';
 
@@ -13,6 +13,9 @@ export const EVENT_FINGER_FOUND = 'finger:found';
 export const EVENT_BEER_POUR = 'beer:pour';
 export const EVENT_SOLENOID_OPEN = 'solenoid:open';
 export const EVENT_SOLENOID_CLOSE = 'solenoid:close';
+
+export const FINGER_SCANNER_ACTIVATED = 'finger:scanner-active';
+export const FINGER_SAVED = 'finger:saved';
 
 const getFingerprintCache = (app, payload) => {
     const {id} = payload;
@@ -145,5 +148,23 @@ export const arduinoListener = app => {
             eventEmitter.emit(`socket:${EVENT_SOLENOID_CLOSE}`);
             cacheFingerPrint = null;
         }
+    });
+
+    eventEmitter.on(FINGER_SCANNER_ACTIVATED, payload => {
+        updateFingerprintStatus(app, {
+            id: payload.id,
+            status: 'scan'
+        })
+        .then(() => eventEmitter.emit(`socket:${FINGER_SCANNER_ACTIVATED}`, payload))
+        .catch(error => console.error(error));
+    });
+
+    eventEmitter.on(FINGER_SAVED, payload => {
+        updateFingerprintStatus(app, {
+            id: payload.id,
+            status: 'active'
+        })
+        .then(() => eventEmitter.emit(`socket:${FINGER_SAVED}`, payload))
+        .catch(error => console.error(error));
     });
 };

@@ -6,6 +6,10 @@ import IconUser from 'dibs-vg/dist/react/account-outlined';
 
 class App extends Component {
 
+    componentDidMount() {
+        this.props.connectSocket();
+    }
+
     isActive(...args) {
         let active = false;
 
@@ -60,7 +64,8 @@ App.propTypes = {
     children: PropTypes.node,
     ui: React.PropTypes.shape({
         action: React.PropTypes.string.isRequired
-    })
+    }),
+    connectSocket: PropTypes.func.isRequired
 };
 
 App.contextTypes = {

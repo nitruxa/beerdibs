@@ -22,7 +22,7 @@ const configureDb = function () {
                 "profilePhoto" CHAR(255),
                 "slackName" char(50),
                 "active" integer(1) DEFAULT(1),
-                "role"  char(32) DEFAULT 'user',
+                "role" char(32) DEFAULT 'user',
                 "password" char(255),
                 "userToken" char(255)
             )
@@ -31,7 +31,8 @@ const configureDb = function () {
         db.run(`
             CREATE TABLE IF NOT EXISTS "userFingerprints" (
                 "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-                "userId" INTEGER
+                "userId" INTEGER,
+                "status" char(32) DEFAULT 'pending'
             )
         `);
 
@@ -51,6 +52,7 @@ const configureDb = function () {
                 "name" varchar(128),
                 "labelUrl" varchar(256),
                 "vol" float(128) DEFAULT(0),
+                "label" varchar(256),
                 "active" integer(1) DEFAULT(1)
             );
         `);

@@ -6,11 +6,13 @@ import UsersLayout from "../../containers/admin/user/UsersLayout";
 import users from './users';
 import beerBrands from './beerBrands';
 
+import {connectSocket} from '../../actions/socket';
+
 const mapStateToProps = ({uiReducer, socketReducer}) => {
     return Object.assign({}, {ui: uiReducer}, socketReducer);
 };
 
-const AppConnected = connect(mapStateToProps)(AdminApp);
+const AppConnected = connect(mapStateToProps, {connectSocket})(AdminApp);
 
 const routes = [
     {

@@ -34,14 +34,14 @@
 {
     event: 'finger:scanner-active',
     data: {
-        fingerId: 1
+        id: 1 // fingerId
     }
 }
 
 {
     event: 'finger:saved',
     data: {
-        fingerId: 1
+        id: 1 // fingerId
     }
 }
 </pre>
@@ -109,7 +109,7 @@
                     <div class="header">Mimic scanner activated</div>
                     <div class="content">
                         <div class="field-item">
-                            <input class="field-item-intput" type="text" name="data[fingerId]" placeholder="Finger ID" />
+                            <input class="field-item-intput" type="text" name="data[id]" placeholder="Finger ID" />
                         </div>
                         <div class="actions">
                             <button class="button--primary" type="submit">Send</button>
