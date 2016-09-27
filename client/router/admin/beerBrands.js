@@ -11,7 +11,7 @@ const beerBrands = [
                 component: BeerBrandForm
             },
             {
-                path: '/beer-brands/:beerBrandId',
+                path: '/beer-brands/:id',
                 component: BeerBrandForm
             }
         ]

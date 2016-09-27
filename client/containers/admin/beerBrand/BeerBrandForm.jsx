@@ -5,7 +5,6 @@ import {
     BEER_BRAND_SAVED,
     BEER_BRAND_CREATED,
     BEER_BRAND_REMOVED,
-    getBeerBrands,
     saveBeerBrand,
     removeBeerBrand
 } from '../../../actions/beerBrand';
@@ -13,7 +12,7 @@ import {
 import BeerBrandForm from '../../../components/beerBrand/BeerBrandForm';
 
 const mapStateToProps = ({uiReducer, beerBrandReducer}, {params}) => {
-    const beerBrandId = Number.parseInt(params.beerBrandId);
+    const beerBrandId = Number.parseInt(params.id);
     const beerBrand = beerBrandReducer.beerBrands.find(b => b.id === beerBrandId) || {};
 
     return Object.assign({
@@ -37,8 +36,7 @@ const BeerBrandFormContainer = connect(
     mapStateToProps,
     Object.assign({
         save: saveBeerBrand,
-        remove: removeBeerBrand,
-        getBeerBrands
+        remove: removeBeerBrand
     }, uiActions)
 )(BeerBrandForm);
 

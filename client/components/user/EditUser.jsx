@@ -17,15 +17,15 @@ class EditUser extends Component {
     }
 
     componentWillUpdate(nextProps) {
-        const userId = nextProps.params.userId;
-        if (userId !== this.props.params.userId) {
+        const id = nextProps.params.id;
+        if (id !== this.props.params.id) {
             this.props.resetUiAction();
-            this.props.getUserFingerprints(userId);
+            this.props.getUserFingerprints(id);
         }
     }
 
     getUserId(props) {
-        const {userId: id} = props.params;
+        const {id} = props.params;
         return Number.parseInt(id);
     }
 

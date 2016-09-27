@@ -13,6 +13,7 @@ class Form extends Component {
         this.onChange = this.onChange.bind(this);
         this.onChangeFile = this.onChangeFile.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.onConfirmRemove = this.onConfirmRemove.bind(this);
         this.openConfirmModal = this.openConfirmModal.bind(this);
         this.closeConfirmModal = this.closeConfirmModal.bind(this);
     }
@@ -36,6 +37,15 @@ class Form extends Component {
         this.setState({
             [this.props.stateName]: this.getStateProps(nextProps)
         });
+    }
+
+    componentWillUpdate(nextProps) {
+        if (this.props.params) {
+            const id = nextProps.params.id;
+            if (id !== this.props.params.id) {
+                this.props.resetUiAction();
+            }
+        }
     }
 
     componentWillUnmount() {
@@ -79,6 +89,11 @@ class Form extends Component {
         this.props.save(state);
     }
 
+    onConfirmRemove() {
+        this.props.remove(this.props.id);
+        this.closeConfirmModal();
+    }
+
     openConfirmModal() {
         this.setState({removeConfirmIsOpen: true});
     }
@@ -88,7 +103,7 @@ class Form extends Component {
     }
 
     getDeleteButton() {
-        const {id, remove, copy} = this.props;
+        const {id, copy} = this.props;
         const {removeConfirmIsOpen} = this.state;
 
         if (id) {
@@ -101,7 +116,7 @@ class Form extends Component {
                     <ConfirmModal isOpen={removeConfirmIsOpen}
                         copy={{header: copy.removeConfirmHeader, cancel: 'Cancel', confirm: 'Remove'}}
                         onCancel={this.closeConfirmModal}
-                        onConfirm={() => remove(id)}>
+                        onConfirm={this.onConfirmRemove}>
                         {copy.removeConfirmMessage}
                     </ConfirmModal>
                 </span>
@@ -118,6 +133,9 @@ class Form extends Component {
 
 Form.propTypes = {
     stateName: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+        id: PropTypes.string.isRequired
+    }),
 
     uiActions: PropTypes.shape({
         created: PropTypes.string,

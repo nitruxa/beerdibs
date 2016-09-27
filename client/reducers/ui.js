@@ -16,6 +16,14 @@ import {
     BEER_BRAND_REMOVED
 } from '../actions/beerBrand';
 
+import {
+    BEER_KEGS_LOADING,
+    BEER_KEGS_LOADED,
+    BEER_KEG_SAVED,
+    BEER_KEG_CREATED,
+    BEER_KEG_REMOVED
+} from '../actions/beerKeg';
+
 const initialState = {
     action: ''
 };
@@ -32,6 +40,11 @@ const uiReducer = function (state = initialState, action) {
         case BEER_BRAND_SAVED:
         case BEER_BRAND_CREATED:
         case BEER_BRAND_REMOVED:
+        case BEER_KEGS_LOADING:
+        case BEER_KEGS_LOADED:
+        case BEER_KEG_SAVED:
+        case BEER_KEG_CREATED:
+        case BEER_KEG_REMOVED:
             return {action: action.type};
 
         case RESET_UI_ACTION:

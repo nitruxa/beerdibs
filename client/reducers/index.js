@@ -8,6 +8,7 @@ import socketReducer from './socket';
 
 import tapReducer from './tap';
 import beerBrandReducer from './beerBrand';
+import beerKegReducer from './beerKeg';
 
 const rootReducer = combineReducers({
     uiReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
     activityReducer,
     socketReducer,
     tapReducer,
-    beerBrandReducer
+    beerBrandReducer,
+    beerKegReducer
 });
 
 export default rootReducer;

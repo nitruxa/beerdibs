@@ -15,7 +15,7 @@ import * as fingerprintActions from '../../../actions/fingerprint';
 import EditUser from '../../../components/user/EditUser';
 
 const mapStateToProps = ({uiReducer, usersReducer, fingerprintReducer}, {params}) => {
-    const userId = Number.parseInt(params.userId);
+    const userId = Number.parseInt(params.id);
     const user = usersReducer.users.find(u => u.id === userId) || {};
 
     return {

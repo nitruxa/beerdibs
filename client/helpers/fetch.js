@@ -7,7 +7,7 @@ const XHR_HEADERS = {
 
 export default function fetchRequest(payload = {}) {
     const formData = new FormData();
-    const {endpoint, accessToken, data} = payload;
+    const {endpoint, accessToken, data = {}} = payload;
     const method = payload.method || 'GET';
     const fetchData = {
         headers: XHR_HEADERS,

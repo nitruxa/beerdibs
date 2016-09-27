@@ -12,7 +12,7 @@ const users = [
                 component: NewUser
             },
             {
-                path: '/users/:userId',
+                path: '/users/:id',
                 component: EditUser
             }
         ]
