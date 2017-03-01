@@ -2,6 +2,7 @@ import path from 'path';
 import glob from 'glob';
 import autoprefixer from 'autoprefixer';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import webpack from 'webpack';
 
 const PUBLIC_PATH = '/public';
 
@@ -26,7 +27,7 @@ export default {
     },
     resolve: {
         modules: [path.join(__dirname, './components'), 'node_modules'],
-        extensions: ["", ".js", ".es.js", ".jsx", ".json", ".html"],
+        extensions: [".js", ".es.js", ".jsx", ".json", ".html"],
         descriptionFiles: ["package.json"],
         enforceExtension: false,
         mainFields: ["browser", "main"],
@@ -39,11 +40,11 @@ export default {
         "window": "window"
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
-                loader: 'babel',
+                loader: 'babel-loader',
                 query: {
                     presets: [
                         'babel-preset-es2015-node4',
@@ -55,13 +56,20 @@ export default {
                 }
             },
             {
-                test:   /\.css$/,
+                test: /\.css$/,
                 loader: ExtractTextPlugin.extract('css-loader!sass-loader!postcss-loader')
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin(path.join(__dirname, './public/base.css'))
+        new ExtractTextPlugin(path.join(__dirname, './public/base.css')),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                postcss: function () {
+                    return [autoprefixer];
+                }
+            }
+        })
     ],
     devServer: {
         publicPath: PUBLIC_PATH,
@@ -69,6 +77,5 @@ export default {
         stats: {
             colors: true
         }
-    },
-    postcss: () => [autoprefixer]
+    }
 };
