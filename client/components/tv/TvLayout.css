@@ -1,0 +1,42 @@
+:local {
+    .container {
+        display: flex;
+        height: 100%;
+    }
+
+    .taps {
+        display: flex;
+        flex: 65%;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        background: #F4A736;
+    }
+
+    .tapsWrapper {
+        flex: 100%;
+    }
+
+    .stats {
+        display: flex;
+        flex: 35%;
+        background: #1E3044;
+        color: #E1E4E6;
+        flex-wrap: wrap;
+    }
+
+    .header {
+        margin: 20px 30px;
+        font-size: 60px;
+        font-style: italic;
+
+        small {
+            font-style: normal;
+        }
+    }
+
+    .activityHeader {
+        flex: 100%;
+        font-size: 60px;
+        margin: 20px 30px;
+    }
+}

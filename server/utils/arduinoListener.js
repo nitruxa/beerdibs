@@ -41,8 +41,8 @@ const setSolenoidCloseTimeout = eventEmitter => {
 export const arduinoListener = app => {
     const {arduino, eventEmitter} = app.locals;
 
-    eventEmitter.on(EVENT_FINGER_FOUND, payload => {
-        const {id} = payload;
+    eventEmitter.on('fingerIDFound', payload => {
+        const {ID: id} = payload;
 
         cacheFingerPrint = null;
         cacheBeerTaps = {};

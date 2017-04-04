@@ -10,6 +10,9 @@ import arduino from './arduino';
 const router = express.Router(); // eslint-disable-line new-cap
 
 router.use('/admin', admin);
+router.use('/tv', (req, res) => {
+    res.status(200).render('tv');
+});
 
 router.use('/api', [
     user,

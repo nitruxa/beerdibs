@@ -57,7 +57,7 @@ export default {
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract('css-loader!sass-loader!postcss-loader')
+                loader: ExtractTextPlugin.extract('css-loader?localIdentName=[name]__[local]__[hash:base64:5]!sass-loader!postcss-loader')
             }
         ]
     },

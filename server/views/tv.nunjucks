@@ -1,0 +1,6 @@
+{% extends "base.nunjucks" %}
+
+{% block root %}
+    <div id="js-beerdibs-tv-app"></div>
+    <script src="/public/tv.js"></script>
+{% endblock %}

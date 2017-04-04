@@ -5,8 +5,6 @@ import IconHome from 'dibs-vg/dist/react/home';
 import IconBeer from 'dibs-vg/dist/react/baby-bottle';
 import IconUser from 'dibs-vg/dist/react/account-outlined';
 
-import BeerPourOverlay from './BeerPourOverlay';
-
 class App extends Component {
 
     componentDidMount() {
@@ -31,38 +29,34 @@ class App extends Component {
         const dashboardIsActive = !this.isActive('/beers') && !this.isActive('/users');
 
         return (
-            <div>
-                <div className="containerFluid boxSizingWrapper">
-                    <div className="rowFlex">
-                        <div className="colLg2 colXs2 right-col">
-                            <a href="/" title="">
-                                <div className="logo"></div>
+            <div className="containerFluid boxSizingWrapper">
+                <div className="rowFlex">
+                    <div className="colLg2 colXs2 right-col">
+                        <a href="/" title="">
+                            <div className="logo"></div>
+                        </a>
+                        <div className="menu">
+                            <Link className={`menu-item ${dashboardIsActive ? 'is-active' : ''}`} to="/" title="">
+                                <IconHome />
+                                <span className="menu-text">Dashboard</span>
+                            </Link>
+                            <Link className={`menu-item ${this.isActive('/beers') ? 'is-active' : ''}`} to="/beers" title="">
+                                <IconBeer />
+                                <span className="menu-text">Beers</span>
+                            </Link>
+                            <Link className={`menu-item ${this.isActive('/users') ? 'is-active' : ''}`} to="/users" title="">
+                                <IconUser />
+                                <span className="menu-text">Users</span>
+                            </Link>
+                            <a href="/admin" className="menu-item">
+                                <span className="menu-text">Admin</span>
                             </a>
-                            <div className="menu">
-                                <Link className={`menu-item ${dashboardIsActive ? 'is-active' : ''}`} to="/" title="">
-                                    <IconHome />
-                                    <span className="menu-text">Dashboard</span>
-                                </Link>
-                                <Link className={`menu-item ${this.isActive('/beers') ? 'is-active' : ''}`} to="/beers" title="">
-                                    <IconBeer />
-                                    <span className="menu-text">Beers</span>
-                                </Link>
-                                <Link className={`menu-item ${this.isActive('/users') ? 'is-active' : ''}`} to="/users" title="">
-                                    <IconUser />
-                                    <span className="menu-text">Users</span>
-                                </Link>
-                                <a href="/admin" className="menu-item">
-                                    <span className="menu-text">Admin</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className="colLg10 colXs10">
-                            {this.props.children}
                         </div>
                     </div>
+                    <div className="colLg10 colXs10">
+                        {this.props.children}
+                    </div>
                 </div>
-
-                <BeerPourOverlay {...this.props} />
             </div>
         );
     }

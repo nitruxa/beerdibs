@@ -14,8 +14,10 @@ export default {
     db: path.resolve(__dirname, './server/db/test.db'),
     mimicArduino,
     arduino: {
-        host: mimicArduino ? '127.0.0.1' : '192.168.32.155',
-        port: mimicArduino ? 6969 : 23
+        host: mimicArduino ? '127.0.0.1' : 'mqtt://192.168.1.100',
+        // port: mimicArduino ? 6969 : 80,
+        username: 'beer',
+        password: 'c0ff33'
     },
     slackBotEnabled: false,
     slackBot: {
