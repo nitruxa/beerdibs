@@ -2,5 +2,5 @@
 
 {% block root %}
     <div id="js-beerdibs-admin-app"></div>
-    <script src="/public/admin.js"></script>
+    <script src="/bundle/admin.js"></script>
 {% endblock %}

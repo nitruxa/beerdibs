@@ -1,7 +1,7 @@
-import express from 'express';
+import {Router} from 'express';
 import {getBeerTaps} from '../controllers/beerTaps';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = new Router(); // eslint-disable-line new-cap
 
 router.get('/taps', (req, res, next) => {
     getBeerTaps(req.app)

@@ -12,8 +12,7 @@ import multer from 'multer';
 import configure from './config/configure';
 import router from './routes';
 import webpackConfig from '../webpack.config';
-import {notFound, errorHandler} from './middleware/error';
-import renderComponent from './middleware/renderComponent';
+import {errorHandler} from './middleware/error';
 
 import additionalHeaders from './helpers/additionalHeaders';
 import cacheSettings from './helpers/cacheSettings';
@@ -67,10 +66,8 @@ nunjucks.configure(app.get('views'), {
     express: app
 });
 
-app.use(express.static(__dirname + '../public', {
-    etag: false
-}));
-
+app.use('/bundle', express.static(path.join(__dirname, '..', 'bundle')));
+app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 app.use('/uploads', express.static('uploads'));
 
 /**

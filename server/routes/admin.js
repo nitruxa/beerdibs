@@ -1,10 +1,10 @@
-import express from 'express';
+import {Router} from 'express';
 import passwordHash from 'password-hash';
 
 import userTokenMiddleware from '../middleware/userToken';
 import {getUsers, updateUserToken} from '../controllers/user';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = new Router();
 
 router.get('/login', userTokenMiddleware(false), (req, res) => {
     if (res.locals.user) {

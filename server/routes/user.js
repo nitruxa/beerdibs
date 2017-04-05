@@ -1,4 +1,4 @@
-import express from 'express';
+import {Router} from 'express';
 import passwordHash from 'password-hash';
 
 import userFingerprints from './userFingerprints';
@@ -8,7 +8,7 @@ import sqlRunMiddleware from '../middleware/sqlRun';
 import userTokenMiddleware from '../middleware/userToken';
 import renameUploadedImages from '../helpers/renameUploadedImages';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = new Router();
 
 router.get('/users', (req, res, next) => {
     getUsers(req.app)

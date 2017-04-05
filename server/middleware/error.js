@@ -1,5 +1,5 @@
 import statuses from 'statuses';
-import notFoundComponent from '../../client/error/404';
+// import notFoundComponent from '../../client/error/404';
 
 export function notFound(req, res, next) {
 
@@ -9,9 +9,9 @@ export function notFound(req, res, next) {
             error: 'Not Found'
         });
     } else {
-        res.locals.renderComponent = {
-            Component: notFoundComponent
-        };
+        // res.locals.renderComponent = {
+        //     Component: notFoundComponent
+        // };
 
         next();
     }

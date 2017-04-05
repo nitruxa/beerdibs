@@ -1,10 +1,10 @@
-import express from 'express';
+import {Router} from 'express';
 import {getBeerKegs} from '../controllers/beerKegs';
 
 import sqlRunMiddleware from '../middleware/sqlRun';
 import userTokenMiddleware from '../middleware/userToken';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = new Router();
 
 router.get('/kegs', (req, res, next) => {
     getBeerKegs(req.app, {filter: req.query.filter})

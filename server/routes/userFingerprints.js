@@ -1,47 +1,41 @@
-import express from 'express';
+import {Router} from 'express';
 import {getNextFingerprintId, getFingerprint} from '../controllers/userFingerprints';
 import sqlRunMiddleware from '../middleware/sqlRun';
 import userTokenMiddleware from '../middleware/userToken';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = new Router();
 
-router.get('/:userId/fingerprint', (req, res, next) => {
+router.get('/:userId/fingerprint', async (req, res) => {
     const {app, params: {userId}} = req;
-
-    getFingerprint(app, {filter: {'users.id': userId, 'users.active': 1}})
-        .then(data => res.status(200).json(data))
-        .catch(error => next(error));
+    const fingerprint = await getFingerprint(app, {filter: {'users.id': userId, 'users.active': 1}});
+    res.status(200).json(fingerprint);
 });
 
-router.get('/fingerprint/:id', (req, res, next) => {
+router.get('/fingerprint/:id', async (req, res) => {
     const {app, params: {id}} = req;
 
-    getFingerprint(app, {id})
-        .then(data => res.status(200).json(data[0]))
-        .catch(error => next(error));
+    const fingerprint = await getFingerprint(app, {id});
+    res.status(200).json(fingerprint[0]);
 });
 
-router.post('/fingerprint', userTokenMiddleware(), (req, res, next) => {
+router.post('/fingerprint', userTokenMiddleware(), async (req, res, next) => {
     const {app, body: {userId}} = req;
 
-    getNextFingerprintId(app)
-        .then(fingerprintId => {
-            res.locals.sqlQuery = `
-                INSERT INTO userFingerprints (id, userId)
-                VALUES (${fingerprintId}, ${userId})
-            `;
+    const fingerprintId = await getNextFingerprintId(app);
+    res.locals.sqlQuery = `
+        INSERT INTO userFingerprints (id, userId)
+        VALUES (${fingerprintId}, ${userId})
+    `;
 
-            app.locals.arduino.sendData({
-                event: 'fingerprint',
-                data: {
-                    scan: true,
-                    fingerId: fingerprintId
-                }
-            });
+    app.locals.arduino.sendData({
+        event: 'fingerprint',
+        data: {
+            scan: true,
+            fingerId: fingerprintId
+        }
+    });
 
-            next();
-        })
-        .catch(error => next(error));
+    next();
 }, sqlRunMiddleware, (req, res) => res.status(200).json({id: res.locals.lastInsertId}));
 
 router.delete('/fingerprint/:id', userTokenMiddleware(), (req, res, next) => {

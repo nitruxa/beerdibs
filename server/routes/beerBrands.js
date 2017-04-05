@@ -1,11 +1,11 @@
-import express from 'express';
+import {Router} from 'express';
 import {getBeerBrands} from '../controllers/beerBrands';
 import renameUploadedImages from '../helpers/renameUploadedImages';
 
 import sqlRunMiddleware from '../middleware/sqlRun';
 import userTokenMiddleware from '../middleware/userToken';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = new Router();
 
 router.get('/brands', (req, res, next) => {
     getBeerBrands(req.app, {filter: {active: 1}})

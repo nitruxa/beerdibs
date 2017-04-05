@@ -53,16 +53,11 @@ class UserForm extends Form {
                             </div>
 
                             <UserRolePassword {...this.state.user} onChange={this.onChange} />
-
-                            {(() => {
-                                if (this.isSaved()) {
-                                    return (
-                                        <div className="form-notify form-notify--success">
-                                            SAVED!
-                                        </div>
-                                    );
-                                }
-                            })()}
+                            {this.isSaved() && (
+                                <div className="form-notify form-notify--success">
+                                    SAVED!
+                                </div>
+                            )}
                             <div className="actions">
                                 <button className="button--primary" type="submit">Save</button>
                             </div>

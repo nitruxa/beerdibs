@@ -1,10 +1,10 @@
-import path from 'path';
-import glob from 'glob';
-import autoprefixer from 'autoprefixer';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import webpack from 'webpack';
+const path = require('path');
+const glob = require('glob');
+const autoprefixer = require('autoprefixer');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
-const PUBLIC_PATH = '/public';
+const BUNDLE_PATH = '/bundle';
 
 const entryFiles = glob.sync(__dirname + '/client/entries/**/*.js');
 
@@ -15,30 +15,30 @@ const entry = entryFiles.reduce((obj, entryFile) => {
     return obj;
 }, {});
 
-export default {
+module.exports = {
     context: __dirname,
     // devtool: '#cheap-module-eval-source-map',
     devtool: 'cheap-source-map',
     entry: entry,
     output: {
-        filename: `[name].js`,
-        path: path.join(__dirname, './public'),
-        publicPath: PUBLIC_PATH
+        filename: '[name].js',
+        path: path.join(__dirname, './bundle'),
+        publicPath: BUNDLE_PATH
     },
     resolve: {
-        modules: [path.join(__dirname, './components'), 'node_modules'],
-        extensions: [".js", ".es.js", ".jsx", ".json", ".html"],
-        descriptionFiles: ["package.json"],
-        enforceExtension: false,
-        mainFields: ["browser", "main"],
-        aliasFields: ["browser"],
-        mainFiles: ["index"]
+        // modules: [path.join(__dirname, './components'), 'node_modules'],
+        extensions: [".js", ".es.js", ".jsx", ".json", ".html"]
+        // descriptionFiles: ["package.json"],
+        // enforceExtension: false,
+        // mainFields: ["browser", "main"],
+        // aliasFields: ["browser"],
+        // mainFiles: ["index"]
     },
-    externals: {
-        // require("jquery") is external and available
-        //  on the global var jQuery
-        "window": "window"
-    },
+    // externals: {
+    //     // require("jquery") is external and available
+    //     //  on the global var jQuery
+    //     // "window": "window"
+    // },
     module: {
         rules: [
             {
@@ -47,11 +47,8 @@ export default {
                 loader: 'babel-loader',
                 query: {
                     presets: [
-                        'babel-preset-es2015-node4',
+                        'babel-preset-es2015',
                         'babel-preset-react'
-                    ].map(require.resolve),
-                    plugins: [
-                        'babel-plugin-transform-object-rest-spread'
                     ].map(require.resolve)
                 }
             },
@@ -62,7 +59,7 @@ export default {
         ]
     },
     plugins: [
-        new ExtractTextPlugin(path.join(__dirname, './public/base.css')),
+        new ExtractTextPlugin('base.css'),
         new webpack.LoaderOptionsPlugin({
             options: {
                 postcss: function () {
@@ -72,7 +69,7 @@ export default {
         })
     ],
     devServer: {
-        publicPath: PUBLIC_PATH,
+        publicPath: BUNDLE_PATH,
         noInfo: true,
         stats: {
             colors: true

@@ -1,8 +1,8 @@
-import express from 'express';
+import {Router} from 'express';
 import net from 'net';
 import config from '../../config';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = new Router();
 const HOST = '127.0.0.1';
 const PORT = 6969;
 

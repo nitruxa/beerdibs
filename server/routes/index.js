@@ -1,4 +1,4 @@
-import express from 'express';
+import {Router} from 'express';
 import admin from './admin';
 import user from './user';
 import beerTaps from './beerTaps';
@@ -7,7 +7,7 @@ import beerBrands from './beerBrands';
 
 import arduino from './arduino';
 
-const router = express.Router(); // eslint-disable-line new-cap
+const router = new Router();
 
 router.use('/admin', admin);
 router.use('/tv', (req, res) => {
