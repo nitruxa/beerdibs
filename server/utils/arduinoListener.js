@@ -5,6 +5,8 @@ import {addUserBeer} from '../controllers/userBeers';
 
 // import * as slackBot from './slackBot';
 
+const SOLENOID_CLOSE_TIMEOUT = 15000;
+
 let cacheFingerPrint = null;
 let cacheBeerTaps = {};
 let closeSolenoidTimeout;
@@ -20,22 +22,23 @@ export const FINGER_SAVED = 'finger:saved';
 async function getFingerprintCache(app, payload) {
     const {fingerId} = payload;
 
-    if (fingerId < 1) {
+    if (cacheFingerPrint) {
+        return Promise.resolve(cacheFingerPrint);
+    }
+
+    if (!fingerId) {
         return Promise.resolve();
     }
 
-    if (cacheFingerPrint) {
+    return getFingerprint(app, {id: fingerId}).then(fingerprints => {
+        cacheFingerPrint = fingerprints[0];
         return cacheFingerPrint;
-    }
-
-    cacheFingerPrint = await getFingerprint(app, {id: fingerId}).then(fingerprints => fingerprints[0]);
-
-    return cacheFingerPrint;
+    });
 };
 
 async function setSolenoidCloseTimeout(eventEmitter) {
     clearTimeout(closeSolenoidTimeout);
-    closeSolenoidTimeout = setTimeout(() => eventEmitter.emit(EVENT_SOLENOID_CLOSE, {}), 15000);
+    closeSolenoidTimeout = setTimeout(() => eventEmitter.emit(EVENT_SOLENOID_CLOSE, {}), SOLENOID_CLOSE_TIMEOUT);
 };
 
 export const arduinoListener = app => {
@@ -95,7 +98,7 @@ export const arduinoListener = app => {
 
         clearTimeout(closeSolenoidTimeout);
 
-        if (Object.keys(cacheBeerTaps).length) {
+        if (user && Object.keys(cacheBeerTaps).length) {
             beerTaps = beerTaps.map(beerTap => {
                 return {
                     ...beerTap,

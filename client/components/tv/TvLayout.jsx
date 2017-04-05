@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
+import Sound from 'react-sound';
+
 import {
     // FINGER_FOUND,
     // BEER_POUR,
@@ -18,6 +20,13 @@ import BeerPourOverlay from './BeerPourOverlay';
 
 class TvLayout extends Component {
 
+    constructor() {
+        super();
+        this.state = {
+            playStatus: Sound.status.STOPPED
+        };
+    }
+
     componentDidMount() {
         this.props.connectSocket();
         this.props.getTaps();
@@ -30,9 +39,14 @@ class TvLayout extends Component {
             this.props.getTaps();
             this.props.getActivity(6);
         }
+
+        if (!this.props.fingerPrint && nextProps.fingerPrint) {
+            this.setState({playStatus: Sound.status.PLAYING});
+        }
     }
 
     render() {
+        const {playStatus} = this.state;
         const {taps, activities} = this.props;
         return (
             <div className={style.container}>
@@ -48,6 +62,11 @@ class TvLayout extends Component {
                 </div>
 
                 <BeerPourOverlay {...this.props} />
+                <Sound
+                    url="/public/can-open.wav"
+                    playStatus={playStatus}
+                    onFinishedPlaying={() => this.setState({playStatus: Sound.status.STOPPED})}
+                />
             </div>
         );
     }
@@ -61,7 +80,8 @@ TvLayout.propTypes = {
     }),
     connectSocket: PropTypes.func.isRequired,
     getTaps: PropTypes.func.isRequired,
-    getActivity: PropTypes.func.isRequired
+    getActivity: PropTypes.func.isRequired,
+    socketAction: PropTypes.string
 };
 
 const mapStateToProps = ({socketReducer, tapReducer, activityReducer}) => {

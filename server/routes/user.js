@@ -71,12 +71,12 @@ router.post('/user', userTokenMiddleware(), (req, res, next) => {
 router.put('/user/:id', userTokenMiddleware(), (req, res, next) => {
     const {id} = req.params;
     const {email, displayName, slackName} = req.body;
-    const {role, password} = getRolePassword(req.body);
+    const {role = 'user', password} = getRolePassword(req.body);
 
-    let roleAndPassword = '';
+    let roleSettings = `, role='${role}'`;
 
     if (role && password) {
-        roleAndPassword = `,
+        roleSettings = `,
             role='${role}',
             password='${password}'
         `;
@@ -88,7 +88,7 @@ router.put('/user/:id', userTokenMiddleware(), (req, res, next) => {
             email='${email}',
             displayName='${displayName}',
             slackName='${slackName}'
-            ${roleAndPassword}
+            ${roleSettings}
         WHERE id=${id}
     `];
 
