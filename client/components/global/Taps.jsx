@@ -10,7 +10,7 @@ export default function Taps({taps, style}) {
                 return (
                     <div key={tap.id} className={style.tap}>
                         <div className={style.tapContent}>
-                            <img className={style.label} src={`/uploads/beerBrands/${beerBrand.label}.jpg`} />
+                            <img className={style.label} src={`/uploads/beerBrands/${beerBrand.label}`} />
                         </div>
                         <div className={style.tapContent}>
                             <div className={style.volumeMeter}>

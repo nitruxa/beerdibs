@@ -19,7 +19,7 @@ export default function ActivityList({activities}) {
                     </div>
                     <div>
                         <div className={style.labelWrapper}>
-                            <img className={style.label} src={`/uploads/beerBrands/${activity.beerKed.beerBrand.label}.jpg`} />
+                            <img className={style.label} src={`/uploads/beerBrands/${activity.beerKed.beerBrand.label}`} />
                         </div>
                     </div>
                     <div className={style.volume}>
