@@ -24,7 +24,7 @@ function BeerKegTable(props) {
                             <td>
                                 <Link to={`/beer-kegs/${beerKeg.id}`} className="user-link" title={beerKeg.beerBrand.name}>
                                     <span className="user-image-wrapper">
-                                        <img src={`/uploads/beerBrands/${beerKeg.beerBrand.label}`} style={{width: '100%'}} />
+                                        <img src={`/uploads/beerBrands/${beerKeg.beerBrand.label}.jpg`} style={{width: '100%'}} />
                                     </span>
                                     <span className="user-name">{beerKeg.beerBrand.name}</span>
                                 </Link>

@@ -13,7 +13,7 @@ class PreviewImage extends Component {
 
     componentWillReceiveProps({image}) {
         if (image instanceof File) {
-            const reader  = new FileReader();
+            const reader = new FileReader();
 
             reader.addEventListener('load', () => {
                 this.setState({previewImage: reader.result});
@@ -32,7 +32,7 @@ class PreviewImage extends Component {
         if (previewImage) {
             return <img src={previewImage} style={{width: '100%'}} />;
         } else if (image) {
-            return <img src={`${folderPath}/${image}`} style={{width: '100%'}} />;
+            return <img src={`${folderPath}/${image}.jpg`} style={{width: '100%'}} />;
         } else if (placeholder) {
             return placeholder;
         }

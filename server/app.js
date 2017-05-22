@@ -3,7 +3,6 @@ import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import cache from 'cache-headers';
 import webpackMiddleware from 'webpack-dev-middleware';
 import webpack from 'webpack';
 import nunjucks from 'nunjucks';
@@ -14,8 +13,6 @@ import router from './routes';
 import webpackConfig from '../webpack.config';
 import {errorHandler} from './middleware/error';
 
-import additionalHeaders from './helpers/additionalHeaders';
-import cacheSettings from './helpers/cacheSettings';
 import {arduinoListener} from './utils/arduinoListener';
 import socketEvents from './utils/socketEvents';
 
@@ -27,13 +24,6 @@ export const app = configure(expressApp, {
     versionFile: path.resolve(__dirname, '../public/version.json'),
     socketServer
 });
-
-const cacheOptions = {
-    cacheSettings: {},
-    paths: {
-        '/**': cacheSettings[app.get('env')] || cacheSettings.defaults
-    }
-};
 
 /**
  * nginx terminates SSL in production. In other environments we use self-signed
@@ -68,18 +58,7 @@ nunjucks.configure(app.get('views'), {
 
 app.use('/bundle', express.static(path.join(__dirname, '..', 'bundle')));
 app.use('/public', express.static(path.join(__dirname, '..', 'public')));
-app.use('/uploads', express.static('uploads'));
-
-/**
- * TODO: Get last deploy file
- * Set default cache headers based on the last deploy; ignore this on devbox
- * environment; defers to the cache-headers#setAdditionalHeaders middleware.
- */
-if (!app.locals.devbox) {
-    const headers = additionalHeaders(app);
-    app.use(cache.setAdditionalHeaders(headers));
-    app.locals.logger.info('Setting additional cache headers', headers);
-}
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 const upload = multer({
     dest: __dirname + '/../uploads'
@@ -89,7 +68,6 @@ app.use(upload.any());
 app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({limit: '5mb', extended: true}));
 app.use(cookieParser());
-app.use(cache.middleware(cacheOptions));
 
 app.use(router);
 

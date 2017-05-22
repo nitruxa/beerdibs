@@ -9,7 +9,7 @@ export const FINGER_SAVED = 'socket:finger:saved';
 
 export const connectSocket = function () {
     return dispatch => {
-        const ws = new WebSocket('ws://192.168.10.100:4080');
+        const ws = new WebSocket('ws://127.0.0.1:4080');
 
         ws.onopen = () => {
             clearTimeout(reconnectInterval);

@@ -10,7 +10,7 @@ class UsersLayout extends Component {
     }
 
     render() {
-        const {users, headerActions} = this.props;
+        const {users, headerActions, isAdminLayout} = this.props;
 
         return (
             <div className="rowFlex">
@@ -27,7 +27,9 @@ class UsersLayout extends Component {
                                         <span className="user-image-wrapper">
                                             <ProfilePhoto profilePhoto={user.profilePhoto} />
                                         </span>
-                                        <span className="user-name">{user.displayName}</span>
+                                        <span className="user-name">
+                                            {user.displayName} {isAdminLayout && <small>({user.role})</small>}
+                                        </span>
                                     </Link>
                                 </div>
                             );
@@ -46,7 +48,8 @@ UsersLayout.propTypes = {
     children: PropTypes.node,
     headerActions: PropTypes.node,
     users: PropTypes.array.isRequired,
-    loadUsers: PropTypes.func.isRequired
+    loadUsers: PropTypes.func.isRequired,
+    isAdminLayout: PropTypes.bool.isRequired
 };
 
 UsersLayout.defaultProps = {};

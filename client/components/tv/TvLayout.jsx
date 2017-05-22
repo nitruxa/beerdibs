@@ -13,10 +13,11 @@ import {getTaps} from '../../actions/tap';
 import {getActivity, getLastMonthStats} from '../../actions/activity';
 
 import style from './TvLayout.css';
+import tapsStyle from './TvTaps.css';
 
-import Taps from './Taps';
+import Taps from '../global/Taps';
+import BeerPourOverlay from '../global/BeerPourOverlay';
 import ActivityList from './ActivityList';
-import BeerPourOverlay from './BeerPourOverlay';
 
 class TvLayout extends Component {
 
@@ -53,7 +54,7 @@ class TvLayout extends Component {
                 <div className={style.taps}>
                     <div className={style.header}>1stdibs <small>Vilnius Pub</small></div>
                     <div className={style.tapsWrapper}>
-                        <Taps taps={taps} />
+                        <Taps taps={taps} style={tapsStyle} />
                     </div>
                 </div>
                 <div className={style.stats}>

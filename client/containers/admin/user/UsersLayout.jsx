@@ -10,7 +10,8 @@ const headerActions = createElement(UsersLayoutAdminHeaderActions);
 const mapStateToProps = ({usersReducer}) => {
     return {
         users: usersReducer.users,
-        headerActions
+        headerActions,
+        isAdminLayout: true
     };
 };
 

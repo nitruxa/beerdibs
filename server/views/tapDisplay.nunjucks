@@ -1,0 +1,6 @@
+{% extends "base.nunjucks" %}
+
+{% block root %}
+    <div id="js-beerdibs-tap-display-app"></div>
+    <script src="/bundle/tapDisplay.js"></script>
+{% endblock %}

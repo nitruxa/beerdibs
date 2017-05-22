@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 
-import style from './Taps.css';
-
-export default function Taps({taps}) {
+export default function Taps({taps, style}) {
     return (
         <div className={style.list}>
             {taps.map(tap => {
@@ -12,7 +10,7 @@ export default function Taps({taps}) {
                 return (
                     <div key={tap.id} className={style.tap}>
                         <div className={style.tapContent}>
-                            <img className={style.label} src={`/uploads/beerBrands/${beerBrand.label}`} />
+                            <img className={style.label} src={`/uploads/beerBrands/${beerBrand.label}.jpg`} />
                         </div>
                         <div className={style.tapContent}>
                             <div className={style.volumeMeter}>
@@ -28,5 +26,6 @@ export default function Taps({taps}) {
 }
 
 Taps.propTypes = {
-    taps: PropTypes.array
+    taps: PropTypes.array,
+    style: PropTypes.object.isRequired
 };

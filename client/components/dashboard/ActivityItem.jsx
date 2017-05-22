@@ -1,15 +1,10 @@
-import moment from 'moment';
-
 import React, { Component, PropTypes } from 'react';
 import ProfilePhoto from '../user/ProfilePhoto';
+import formatDate from '../../helpers/formatDate';
 
 class ActivityItem extends Component {
     render() {
         const {user, volume, beerKed: {beerBrand}, date} = this.props;
-        const today = moment(new Date()).format('YYYY-MM-DDT00:00Z');
-        const diffDays = moment(moment(date).format('YYYY-MM-DDT00:00Z')).diff(today, 'days');
-        const dateFormat = diffDays < 0 ? (diffDays > -7 ? 'ddd HH:mm' : 'MMM DD HH:mm') : 'HH:mm';
-        const dateFormatted = moment(date).format(dateFormat);
 
         return (
             <div className="user-wrapper">
@@ -21,7 +16,7 @@ class ActivityItem extends Component {
                         {user.displayName} poured {volume}ml of {beerBrand.name}
                     </span>
                 </span>
-                <span className="user-time">{dateFormatted}</span>
+                <span className="user-time">{formatDate(date)}</span>
             </div>
         );
     }

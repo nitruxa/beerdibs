@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 
+import formatDate from '../../helpers/formatDate';
 import ProfilePhoto from '../user/ProfilePhoto';
 import style from './ActivityList.css';
 
@@ -13,13 +14,18 @@ export default function ActivityList({activities}) {
                             <ProfilePhoto profilePhoto={activity.user.profilePhoto} />
                         </div>
                     </div>
-                    <div className={style.userName}>{activity.user.displayName}</div>
+                    <div className={style.userName}>
+                        {activity.user.displayName}
+                    </div>
                     <div>
                         <div className={style.labelWrapper}>
-                            <img className={style.label} src={`/uploads/beerBrands/${activity.beerKed.beerBrand.label}`} />
+                            <img className={style.label} src={`/uploads/beerBrands/${activity.beerKed.beerBrand.label}.jpg`} />
                         </div>
                     </div>
-                    <div className={style.volume}>{activity.volume}ml</div>
+                    <div className={style.volume}>
+                        {activity.volume}ml
+                        <div className={style.date}>{formatDate(activity.date)}</div>
+                    </div>
                 </div>
             ))}
         </div>

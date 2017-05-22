@@ -14,6 +14,10 @@ router.use('/tv', (req, res) => {
     res.status(200).render('tv');
 });
 
+router.use('/tap-display', (req, res) => {
+    res.status(200).render('tapDisplay');
+});
+
 router.use('/api', [
     user,
     router.use('/beer', [beerTaps, beerKegs, beerBrands])
