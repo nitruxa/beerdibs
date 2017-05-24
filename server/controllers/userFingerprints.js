@@ -1,25 +1,30 @@
 import {sqlEach, sqlRun} from '../helpers/sql';
 
 export const getNextFingerprintId = function (app) {
-    let previousId = 0;
-
     const GET_FINGERPRINT_USER_SQL = `SELECT * FROM userFingerprints`;
 
     return sqlEach(app.locals.db, GET_FINGERPRINT_USER_SQL).then(fingerprints => {
-        const index = fingerprints.findIndex(({id}) => {
-            const lastFingerprint = previousId + 1 !== id;
-            previousId = id;
-            return lastFingerprint;
-        });
+        const first = fingerprints[0];
+        const last = fingerprints[fingerprints.length - 1];
 
-        let fingerId;
+        let fingerId = 0;
 
-        if (fingerprints.length === 0) {
-            fingerId = 1;
-        } else if (index === -1) {
-            fingerId = fingerprints[fingerprints.length - 1].id + 1;
+        if (first && last && first.id === last.id) {
+            fingerId = first + 1;
+        } else if (first && last) {
+            for (let i = 1; i <= last.id; i++) {
+                const fingerExists = !!fingerprints.find(({id}) => id === i);
+                if (!fingerExists) {
+                    fingerId = i;
+                    break;
+                }
+            }
+
+            if (!fingerId) {
+                fingerId = last.id + 1;
+            }
         } else {
-            fingerId = fingerprints[index - 1].id + 1;
+            fingerId = 1;
         }
 
         return fingerId;

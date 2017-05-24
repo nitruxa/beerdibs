@@ -28,10 +28,9 @@ router.post('/fingerprint', userTokenMiddleware(), async (req, res, next) => {
     `;
 
     app.locals.arduino.sendData({
-        event: 'fingerprint',
-        data: {
-            scan: true,
-            fingerId: fingerprintId
+        action: 'finger:add',
+        payload: {
+            fingerprintId: `${fingerprintId}`
         }
     });
 

@@ -3,8 +3,8 @@ import {
     EVENT_BEER_POUR,
     EVENT_SOLENOID_CLOSE,
 
-    FINGER_SCANNER_ACTIVATED,
-    FINGER_SAVED
+    FINGER_SAVED,
+    FINGER_EVENT
 } from './arduinoListener';
 
 const addListener = function (eventEmitter) {
@@ -74,12 +74,12 @@ const socketEvents = app => {
                 callback: emitBeerPour(socket)
             },
             {
-                event: `socket:${FINGER_SCANNER_ACTIVATED}`,
-                callback: emitEvent(socket)(FINGER_SCANNER_ACTIVATED)
-            },
-            {
                 event: `socket:${FINGER_SAVED}`,
                 callback: emitEvent(socket)(FINGER_SAVED)
+            },
+            {
+                event: `socket:${FINGER_EVENT}`,
+                callback: emitEvent(socket)(FINGER_EVENT)
             }
         ];
 

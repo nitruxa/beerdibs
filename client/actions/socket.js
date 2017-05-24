@@ -5,11 +5,13 @@ export const BEER_POUR = 'socket:beer:pour';
 export const SOLENOID_CLOSE = 'socket:solenoid:close';
 
 export const FINGER_SCANNER_ACTIVATED = 'socket:finger:scanner-active';
+export const FINGER_EVENT = 'socket:finger:event';
 export const FINGER_SAVED = 'socket:finger:saved';
+export const FINGER_ERROR = 'socket:finger:error';
 
 export const connectSocket = function () {
     return dispatch => {
-        const ws = new WebSocket('ws://127.0.0.1:4080');
+        const ws = new WebSocket(`ws://${window.location.hostname}:4080`);
 
         ws.onopen = () => {
             clearTimeout(reconnectInterval);

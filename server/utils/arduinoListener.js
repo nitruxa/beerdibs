@@ -11,12 +11,12 @@ let cacheFingerPrint = null;
 let cacheBeerTaps = {};
 let closeSolenoidTimeout;
 
-export const EVENT_FINGER_FOUND = 'finger:found';
 export const EVENT_BEER_POUR = 'beer:pour';
 export const EVENT_SOLENOID_OPEN = 'solenoid:open';
 export const EVENT_SOLENOID_CLOSE = 'solenoid:close';
 
-export const FINGER_SCANNER_ACTIVATED = 'finger:scanner-active';
+export const EVENT_FINGER_FOUND = 'finger:found';
+export const FINGER_EVENT = 'finger:event';
 export const FINGER_SAVED = 'finger:saved';
 
 async function getFingerprintCache(app, payload) {
@@ -120,21 +120,34 @@ export const arduinoListener = app => {
         eventEmitter.emit(`socket:${EVENT_SOLENOID_CLOSE}`, {user, beerTaps});
     });
 
-    eventEmitter.on(FINGER_SCANNER_ACTIVATED, async payload => {
-        await updateFingerprintStatus(app, {
-            id: payload.id,
-            status: 'scan'
-        });
+    // eventEmitter.on(FINGER_SCANNER_ACTIVATED, async payload => {
+    //     await updateFingerprintStatus(app, {
+    //         id: payload.id,
+    //         status: 'scan'
+    //     });
 
-        eventEmitter.emit(`socket:${FINGER_SCANNER_ACTIVATED}`, payload);
+    //     eventEmitter.emit(`socket:${FINGER_SCANNER_ACTIVATED}`, payload);
+    // });
+
+    eventEmitter.on(FINGER_EVENT, async ({fingerId, message}) => {
+        eventEmitter.emit(`socket:${FINGER_EVENT}`, {
+            id: fingerId,
+            message
+        });
     });
+
+    // eventEmitter.on(FINGER_ERROR, async payload => {
+    //     eventEmitter.emit(`socket:${FINGER_SCANNER_ACTIVATED}`, payload);
+    // });
 
     eventEmitter.on(FINGER_SAVED, async payload => {
         await updateFingerprintStatus(app, {
-            id: payload.id,
+            id: payload.fingerId,
             status: 'active'
         });
 
-        eventEmitter.emit(`socket:${FINGER_SAVED}`, payload);
+        eventEmitter.emit(`socket:${FINGER_SAVED}`, {
+            id: payload.fingerId
+        });
     });
 };

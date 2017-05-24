@@ -11,7 +11,8 @@ import {
 
 import {
     FINGER_SCANNER_ACTIVATED,
-    FINGER_SAVED
+    FINGER_SAVED,
+    FINGER_EVENT
 } from '../actions/socket';
 
 const initialState = {
@@ -53,12 +54,16 @@ const fingerprintsReducer = function (state = initialState, action) {
 
             return Object.assign({}, state, {userFingerprints: fingerprints});
 
-        case FINGER_SCANNER_ACTIVATED:
-            userFingerprints = mapStatus(action.payload.id, state.userFingerprints, STATUS_SCAN);
-            return Object.assign({}, state, userFingerprints);
+        // case FINGER_SCANNER_ACTIVATED:
+        //     userFingerprints = mapStatus(action.payload.id, state.userFingerprints, STATUS_SCAN);
+        //     return Object.assign({}, state, userFingerprints);
 
         case FINGER_SAVED:
             userFingerprints = mapStatus(action.payload.id, state.userFingerprints, STATUS_ACTIVE);
+            return Object.assign({}, state, userFingerprints);
+
+        case FINGER_EVENT:
+            userFingerprints = mapStatus(action.payload.id, state.userFingerprints, action.payload.message);
             return Object.assign({}, state, userFingerprints);
     }
 
