@@ -34,8 +34,10 @@ router.post('/fingerprint', userTokenMiddleware(), async (req, res, next) => {
         }
     });
 
+    res.locals.fingerprintId = fingerprintId;
+
     next();
-}, sqlRunMiddleware, (req, res) => res.status(200).json({id: res.locals.lastInsertId}));
+}, sqlRunMiddleware, (req, res) => res.status(200).json({id: res.locals.fingerprintId}));
 
 router.delete('/fingerprint/:id', userTokenMiddleware(), (req, res, next) => {
     const {id} = req.params;

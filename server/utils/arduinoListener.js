@@ -41,11 +41,47 @@ async function setSolenoidCloseTimeout(eventEmitter) {
     closeSolenoidTimeout = setTimeout(() => eventEmitter.emit(EVENT_SOLENOID_CLOSE, {}), SOLENOID_CLOSE_TIMEOUT);
 };
 
+async function saveBeerToUser({app, fingerId}) {
+    const user = await getFingerprintCache(app, {fingerId});
+    let beerTaps = await getBeerTaps(app, {filter: {
+        position: Object.keys(cacheBeerTaps),
+        active: 1
+    }});
+
+    clearTimeout(closeSolenoidTimeout);
+
+    if (user && Object.keys(cacheBeerTaps).length) {
+        beerTaps = beerTaps.map(beerTap => {
+            return {
+                ...beerTap,
+                volumePoured: cacheBeerTaps[beerTap.position]
+            };
+        });
+
+        await Promise.all(
+            beerTaps.map(({beerKeg, volumePoured}) => addUserBeer(app, {
+                id: user.userId,
+                beerKegId: beerKeg.id,
+                volume: volumePoured
+            }))
+        );
+    }
+
+    cacheFingerPrint = null;
+    cacheBeerTaps = {};
+
+    return {user, beerTaps};
+}
+
 export const arduinoListener = app => {
     const {arduino, eventEmitter} = app.locals;
 
     eventEmitter.on(EVENT_FINGER_FOUND, async payload => {
         const {fingerId} = payload;
+
+        if (cacheFingerPrint) {
+            await saveBeerToUser({app, fingerId});
+        }
 
         cacheFingerPrint = null;
         cacheBeerTaps = {};
@@ -90,44 +126,9 @@ export const arduinoListener = app => {
 
     eventEmitter.on(EVENT_SOLENOID_CLOSE, async payload => {
         const {fingerId} = payload;
-        const user = await getFingerprintCache(app, {fingerId});
-        let beerTaps = await getBeerTaps(app, {filter: {
-            position: Object.keys(cacheBeerTaps),
-            active: 1
-        }});
-
-        clearTimeout(closeSolenoidTimeout);
-
-        if (user && Object.keys(cacheBeerTaps).length) {
-            beerTaps = beerTaps.map(beerTap => {
-                return {
-                    ...beerTap,
-                    volumePoured: cacheBeerTaps[beerTap.position]
-                };
-            });
-
-            await Promise.all(
-                beerTaps.map(({beerKeg, volumePoured}) => addUserBeer(app, {
-                    id: user.userId,
-                    beerKegId: beerKeg.id,
-                    volume: volumePoured
-                }))
-            );
-        }
-
-        cacheFingerPrint = null;
-        cacheBeerTaps = {};
+        const {user, beerTaps} = await saveBeerToUser({app, fingerId});
         eventEmitter.emit(`socket:${EVENT_SOLENOID_CLOSE}`, {user, beerTaps});
     });
-
-    // eventEmitter.on(FINGER_SCANNER_ACTIVATED, async payload => {
-    //     await updateFingerprintStatus(app, {
-    //         id: payload.id,
-    //         status: 'scan'
-    //     });
-
-    //     eventEmitter.emit(`socket:${FINGER_SCANNER_ACTIVATED}`, payload);
-    // });
 
     eventEmitter.on(FINGER_EVENT, async ({fingerId, message}) => {
         eventEmitter.emit(`socket:${FINGER_EVENT}`, {
@@ -135,10 +136,6 @@ export const arduinoListener = app => {
             message
         });
     });
-
-    // eventEmitter.on(FINGER_ERROR, async payload => {
-    //     eventEmitter.emit(`socket:${FINGER_SCANNER_ACTIVATED}`, payload);
-    // });
 
     eventEmitter.on(FINGER_SAVED, async payload => {
         await updateFingerprintStatus(app, {

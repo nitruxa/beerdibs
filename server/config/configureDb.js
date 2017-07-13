@@ -30,7 +30,7 @@ const configureDb = function () {
 
         db.run(`
             CREATE TABLE IF NOT EXISTS "userFingerprints" (
-                "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+                "id" INTEGER,
                 "userId" INTEGER,
                 "status" char(32) DEFAULT 'pending'
             )
