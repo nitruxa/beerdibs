@@ -9,7 +9,7 @@ class UserRolePassword extends Component {
             return (
                 <div>
                     <div className="field-item">
-                        <input className="field-item-intput" name="password" onChange={onChange} value={password} placeholder="Password" type="password" />
+                        <input className="field-item-input" name="password" onChange={onChange} value={password} placeholder="Password" type="password" />
                     </div>
                 </div>
             );
@@ -24,7 +24,7 @@ class UserRolePassword extends Component {
         return (
             <div>
                 <div className="field-item">
-                    <select className="field-item-intput" name="role" value={role} onChange={onChange}>
+                    <select className="field-item-input" name="role" value={role} onChange={onChange}>
                         <option value="user">Basic user</option>
                         <option value="admin">Administrator</option>
                     </select>

@@ -36,20 +36,20 @@ class UserForm extends Form {
                         <div className="header">User Details</div>
                         <div className="content">
                             <div className="field-item">
-                                <input className="field-item-intput" name="displayName" value={displayName} onChange={this.onChange} placeholder="Name" type="text" />
+                                <input className="field-item-input" name="displayName" value={displayName} onChange={this.onChange} placeholder="Name" type="text" />
                             </div>
                             <div className="field-item">
-                                <input className="field-item-intput"
+                                <input className="field-item-input"
                                     name="profilePhoto"
                                     onChange={this.onChangeFile}
                                     placeholder="Profile photo"
                                     type="file" />
                             </div>
                             <div className="field-item">
-                                <input className="field-item-intput" name="email" value={email} onChange={this.onChange} placeholder="Email" type="email" />
+                                <input className="field-item-input" name="email" value={email} onChange={this.onChange} placeholder="Email" type="email" />
                             </div>
                             <div className="field-item">
-                                <input className="field-item-intput" name="slackName" value={slackName} onChange={this.onChange} placeholder="Slack name" type="text" />
+                                <input className="field-item-input" name="slackName" value={slackName} onChange={this.onChange} placeholder="Slack name" type="text" />
                             </div>
 
                             <UserRolePassword {...this.state.user} onChange={this.onChange} />

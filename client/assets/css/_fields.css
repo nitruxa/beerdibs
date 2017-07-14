@@ -4,7 +4,13 @@ $form-color-success: #58bc4d;
     padding-bottom: 15px;
 }
 
-.field-item-intput {
+.field-item-label {
+    display: inline-block;
+    font-size: 14px;
+    padding-bottom: 4px;
+}
+
+.field-item-input {
     width: 100%;
     padding: 12px 10px;
     font-size: 14px;

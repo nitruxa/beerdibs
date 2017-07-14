@@ -58,7 +58,7 @@
                     <div class="content">
 
                         <div class="field-item">
-                            <input class="field-item-intput" type="text" name="data[id]" placeholder="Finger ID" />
+                            <input class="field-item-input" type="text" name="data[id]" placeholder="Finger ID" />
                         </div>
                         <div class="actions">
                             <button class="button--primary" type="submit">Send</button>
@@ -72,13 +72,13 @@
 
                     <div class="content">
                         <div class="field-item">
-                            <input class="field-item-intput" type="text" name="data[kegPosId]" placeholder="Tap position id" />
+                            <input class="field-item-input" type="text" name="data[kegPosId]" placeholder="Tap position id" />
                         </div>
                         <div class="field-item">
-                            <input class="field-item-intput" type="text" name="data[pulses]" placeholder="Pulses from flow meter" />
+                            <input class="field-item-input" type="text" name="data[pulses]" placeholder="Pulses from flow meter" />
                         </div>
                         <div class="field-item">
-                            <input class="field-item-intput" type="text" name="data[fingerId]" placeholder="Finger ID" />
+                            <input class="field-item-input" type="text" name="data[fingerId]" placeholder="Finger ID" />
                         </div>
                         <div class="actions">
                             <button class="button--primary" type="submit">Send</button>
@@ -92,7 +92,7 @@
 
                     <div class="content">
                         <div class="field-item">
-                            <input class="field-item-intput" type="text" name="data[fingerId]" placeholder="Finger ID" />
+                            <input class="field-item-input" type="text" name="data[fingerId]" placeholder="Finger ID" />
                         </div>
                         <div class="actions">
                             <button class="button--primary" type="submit">Send</button>
@@ -109,7 +109,7 @@
                     <div class="header">Mimic scanner activated</div>
                     <div class="content">
                         <div class="field-item">
-                            <input class="field-item-intput" type="text" name="data[id]" placeholder="Finger ID" />
+                            <input class="field-item-input" type="text" name="data[id]" placeholder="Finger ID" />
                         </div>
                         <div class="actions">
                             <button class="button--primary" type="submit">Send</button>
@@ -123,7 +123,7 @@
 
                     <div class="content">
                         <div class="field-item">
-                            <input class="field-item-intput" type="text" name="data[id]" placeholder="Finger ID" />
+                            <input class="field-item-input" type="text" name="data[id]" placeholder="Finger ID" />
                         </div>
                         <div class="actions">
                             <button class="button--primary" type="submit">Send</button>

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import {Link} from 'react-router';
+import BeerKegBrand from './BeerKegBrand';
 import moment from 'moment';
 
 function getVolume(volume) {
@@ -22,12 +22,7 @@ function BeerKegTable(props) {
                     return (
                         <tr key={beerKeg.id}>
                             <td>
-                                <Link to={`/beer-kegs/${beerKeg.id}`} className="user-link" title={beerKeg.beerBrand.name}>
-                                    <span className="user-image-wrapper">
-                                        <img src={`/uploads/beerBrands/${beerKeg.beerBrand.label}`} style={{width: '100%'}} />
-                                    </span>
-                                    <span className="user-name">{beerKeg.beerBrand.name}</span>
-                                </Link>
+                                <BeerKegBrand beerKeg={beerKeg} />
                             </td>
                             <td>{getVolume(beerKeg.volume)}l</td>
                             <td>{getVolume(beerKeg.volumePoured)}l</td>

@@ -1,6 +1,9 @@
 import {Router} from 'express';
 import {getBeerTaps} from '../controllers/beerTaps';
 
+import sqlRunMiddleware from '../middleware/sqlRun';
+import userTokenMiddleware from '../middleware/userToken';
+
 const router = new Router(); // eslint-disable-line new-cap
 
 router.get('/taps', (req, res, next) => {
@@ -20,5 +23,22 @@ router.get('/taps/:tapId', (req, res, next) => {
         })
         .catch(error => next(error));
 });
+
+router.put('/tap/:id', userTokenMiddleware(), (req, res, next) => {
+    const {id} = req.params;
+    const {beerKegId, active, position, ratio} = req.body;
+
+    res.locals.sqlQuery = `
+        UPDATE beerTaps
+        SET
+            beerKegId='${beerKegId}',
+            active='${active}',
+            position='${position}',
+            ratio='${ratio}'
+        WHERE id=${id}
+    `;
+
+    next();
+}, sqlRunMiddleware, (req, res) => res.status(200).json({status: 'OK'}));
 
 export default router;

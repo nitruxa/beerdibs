@@ -73,6 +73,7 @@ const configureDb = function () {
                 "id" integer PRIMARY KEY AUTOINCREMENT NOT NULL,
                 "beerKegId" integer NOT NULL,
                 "position" integer(128),
+                "ratio" float DEFAULT(1),
                 "active" integer(1) DEFAULT(1)
             );
         `);

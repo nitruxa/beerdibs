@@ -6,6 +6,7 @@ import UsersLayout from "../../containers/admin/user/UsersLayout";
 import users from './users';
 import beerBrands from './beerBrands';
 import beerKegs from './beerKegs';
+import taps from './taps';
 
 import {connectSocket} from '../../actions/socket';
 
@@ -25,6 +26,7 @@ const routes = [
         childRoutes: [
             ...beerBrands,
             ...beerKegs,
+            ...taps,
             ...users
         ]
     },

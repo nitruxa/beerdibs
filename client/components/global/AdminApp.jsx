@@ -25,7 +25,7 @@ class App extends Component {
     }
 
     render() {
-        const usersIsActive = !this.isActive('/beer-brands') && !this.isActive('/beer-kegs') || this.isActive('/users');
+        const usersIsActive = !this.isActive('/beer-brands') && !this.isActive('/beer-kegs') && !this.isActive('/beer-taps') || this.isActive('/users');
 
         return (
             <div>
@@ -43,6 +43,10 @@ class App extends Component {
                                 <Link className={`menu-item ${this.isActive('/beer-kegs') ? 'is-active' : ''}`} to="/beer-kegs" title="">
                                     <IconBeer />
                                     <span className="menu-text">Beer kegs</span>
+                                </Link>
+                                <Link className={`menu-item ${this.isActive('/beer-taps') ? 'is-active' : ''}`} to="/beer-taps" title="">
+                                    <IconBeer />
+                                    <span className="menu-text">Beer Taps</span>
                                 </Link>
                                 <Link className={`menu-item ${usersIsActive ? 'is-active' : ''}`} to="/users" title="">
                                     <IconUser />
