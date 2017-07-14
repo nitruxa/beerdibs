@@ -81,7 +81,7 @@ class BeerKegForm extends Form {
                         <div className="header">Beer keg details</div>
                         <div className="content">
                             <div className="field-item">
-                                <select className="field-item-intput"
+                                <select className="field-item-input"
                                     name="beerBrandId"
                                     value={beerBrandId}
                                     onChange={this.onChange}>
@@ -92,7 +92,7 @@ class BeerKegForm extends Form {
                             </div>
 
                             <div className="field-item">
-                                <input className="field-item-intput"
+                                <input className="field-item-input"
                                     name="volume"
                                     value={volume}
                                     onChange={this.onChange}
@@ -100,7 +100,7 @@ class BeerKegForm extends Form {
                             </div>
 
                             <div className="field-item">
-                                <input className="field-item-intput"
+                                <input className="field-item-input"
                                     name="volumePoured"
                                     value={volumePoured}
                                     onChange={this.onChange}
@@ -108,7 +108,7 @@ class BeerKegForm extends Form {
                             </div>
 
                             <div className="field-item">
-                                <input className="field-item-intput"
+                                <input className="field-item-input"
                                     name="price"
                                     value={price}
                                     onChange={this.onChange}
@@ -116,7 +116,7 @@ class BeerKegForm extends Form {
                             </div>
 
                             <div className="field-item">
-                                <input className="field-item-intput"
+                                <input className="field-item-input"
                                     name="purchaseDate"
                                     value={purchaseDate}
                                     onChange={this.onChange}

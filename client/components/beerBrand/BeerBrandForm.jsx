@@ -34,7 +34,7 @@ class BeerBrandForm extends Form {
                         <div className="header">Beer brand details</div>
                         <div className="content">
                             <div className="field-item">
-                                <input className="field-item-intput"
+                                <input className="field-item-input"
                                     name="name"
                                     value={name}
                                     onChange={this.onChange}
@@ -43,7 +43,7 @@ class BeerBrandForm extends Form {
                             </div>
 
                             <div className="field-item">
-                                <input className="field-item-intput"
+                                <input className="field-item-input"
                                     name="label"
                                     onChange={this.onChangeFile}
                                     placeholder="Label"
@@ -51,7 +51,7 @@ class BeerBrandForm extends Form {
                             </div>
 
                             <div className="field-item">
-                                <input className="field-item-intput"
+                                <input className="field-item-input"
                                     name="abv"
                                     value={abv}
                                     onChange={this.onChange}

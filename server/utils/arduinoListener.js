@@ -8,7 +8,8 @@ import {addUserBeer} from '../controllers/userBeers';
 const SOLENOID_CLOSE_TIMEOUT = 15000;
 
 let cacheFingerPrint = null;
-let cacheBeerTaps = {};
+let cacheBeerPour = {};
+let cacheBeerTaps = [];
 let closeSolenoidTimeout;
 
 export const EVENT_BEER_POUR = 'beer:pour';
@@ -34,6 +35,18 @@ async function getFingerprintCache(app, payload) {
         cacheFingerPrint = fingerprints[0];
         return cacheFingerPrint;
     });
+};
+
+async function getBeerTapsCache(app) {
+    if (cacheBeerTaps.length) {
+        return Promise.resolve(cacheBeerTaps);
+    }
+
+    cacheBeerTaps = await getBeerTaps(app, {filter: {
+        active: 1
+    }});
+
+    return cacheBeerTaps;
 };
 
 async function setSolenoidCloseTimeout(eventEmitter) {
@@ -84,9 +97,12 @@ export const arduinoListener = app => {
         }
 
         cacheFingerPrint = null;
-        cacheBeerTaps = {};
+        cacheBeerPour = {};
 
         const fingerPrint = await getFingerprintCache(app, {fingerId});
+
+        // Cache beer taps
+        await getBeerTapsCache();
 
         if (fingerPrint) {
             arduino.sendData({
@@ -104,7 +120,12 @@ export const arduinoListener = app => {
 
     eventEmitter.on(EVENT_BEER_POUR, async payload => {
         const {kegPosId: beerTapPosition, pulses, fingerId} = payload;
-        const beerPoured = volumeCounter(pulses);
+        const beerTaps = await getBeerTapsCache();
+        const beerTap = beerTaps.find(tap => tap.position === beerTapPosition);
+
+        console.log(beerTap);
+
+        const beerPoured = volumeCounter(pulses, beerTap.ratio);
 
         if (beerPoured < 20) {
             return;
@@ -112,7 +133,7 @@ export const arduinoListener = app => {
 
         await getFingerprintCache(app, {fingerId});
         setSolenoidCloseTimeout(eventEmitter);
-        cacheBeerTaps[beerTapPosition] = beerPoured;
+        cacheBeerPour[beerTapPosition] = beerPoured;
         eventEmitter.emit(`socket:${EVENT_BEER_POUR}`, {
             beerTapPosition,
             beerPoured
@@ -120,7 +141,7 @@ export const arduinoListener = app => {
     });
 
     eventEmitter.on(EVENT_SOLENOID_OPEN, () => {
-        cacheBeerTaps = {};
+        cacheBeerPour = {};
         setSolenoidCloseTimeout(eventEmitter);
     });
 
