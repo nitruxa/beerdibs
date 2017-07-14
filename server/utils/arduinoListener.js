@@ -56,18 +56,15 @@ async function setSolenoidCloseTimeout(eventEmitter) {
 
 async function saveBeerToUser({app, fingerId}) {
     const user = await getFingerprintCache(app, {fingerId});
-    let beerTaps = await getBeerTaps(app, {filter: {
-        position: Object.keys(cacheBeerTaps),
-        active: 1
-    }});
+    let beerTaps = await getBeerTapsCache(app);
 
     clearTimeout(closeSolenoidTimeout);
 
-    if (user && Object.keys(cacheBeerTaps).length) {
+    if (user && Object.keys(cacheBeerPour).length) {
         beerTaps = beerTaps.map(beerTap => {
             return {
                 ...beerTap,
-                volumePoured: cacheBeerTaps[beerTap.position]
+                volumePoured: cacheBeerPour[beerTap.position]
             };
         });
 
@@ -81,7 +78,8 @@ async function saveBeerToUser({app, fingerId}) {
     }
 
     cacheFingerPrint = null;
-    cacheBeerTaps = {};
+    cacheBeerTaps = [];
+    cacheBeerPour = {};
 
     return {user, beerTaps};
 }
@@ -102,7 +100,7 @@ export const arduinoListener = app => {
         const fingerPrint = await getFingerprintCache(app, {fingerId});
 
         // Cache beer taps
-        await getBeerTapsCache();
+        await getBeerTapsCache(app);
 
         if (fingerPrint) {
             arduino.sendData({
@@ -122,8 +120,6 @@ export const arduinoListener = app => {
         const {kegPosId: beerTapPosition, pulses, fingerId} = payload;
         const beerTaps = await getBeerTapsCache();
         const beerTap = beerTaps.find(tap => tap.position === beerTapPosition);
-
-        console.log(beerTap);
 
         const beerPoured = volumeCounter(pulses, beerTap.ratio);
 

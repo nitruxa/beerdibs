@@ -3,15 +3,16 @@ import React, {Component, PropTypes} from 'react';
 class BeerPourOverlay extends Component {
 
     getBeerTapInfo() {
-        const {beerTaps} = this.props;
+        const {beerTaps, taps} = this.props;
 
         return Object.keys(beerTaps).map(beerTap => {
+            const tap = taps.find(({position}) => position === Number(beerTap));
             return (
                 <div key={beerTap} className="tap-puored" style={{fontSize: '2em'}}>
                     {beerTaps[beerTap]} ml
 
                     <div style={{fontSize: '0.5em'}}>
-                        of Kronenbourg Blanc
+                        {tap && tap.beerKeg && tap.beerKeg.beerBrand.name}
                     </div>
                 </div>
             );
@@ -62,7 +63,8 @@ class BeerPourOverlay extends Component {
 
 BeerPourOverlay.propTypes = {
     fingerPrint: PropTypes.object,
-    beerTaps: PropTypes.object
+    beerTaps: PropTypes.object,
+    taps: PropTypes.array
 };
 
 export default BeerPourOverlay;
