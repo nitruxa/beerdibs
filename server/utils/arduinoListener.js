@@ -118,7 +118,7 @@ export const arduinoListener = app => {
 
     eventEmitter.on(EVENT_BEER_POUR, async payload => {
         const {kegPosId: beerTapPosition, pulses, fingerId} = payload;
-        const beerTaps = await getBeerTapsCache();
+        const beerTaps = await getBeerTapsCache(app);
         const beerTap = beerTaps.find(tap => tap.position === beerTapPosition);
 
         const beerPoured = volumeCounter(pulses, beerTap.ratio);
